@@ -3,6 +3,11 @@ package leesc.chatchat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -45,6 +50,57 @@ public class MainActivity extends AppCompatActivity {
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
+        }
+
+
+        //Fragment
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tl_tabs);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.vp_pager);
+
+        Fragment[] arrFragments = new Fragment[3];
+        arrFragments[0] = new ContactsFragment();
+        arrFragments[1] = new MessagesFragment();
+        arrFragments[2] = new SettingsFragment();
+
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), arrFragments);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        private Fragment[] arrFragments;
+
+        public MyPagerAdapter(FragmentManager fm, Fragment[] arrFragments) {
+            super(fm);
+            this.arrFragments = arrFragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return arrFragments[position];
+        }
+
+        @Override
+        public int getCount() {
+            return arrFragments.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            switch (position) {
+                case 0 :
+                    return "Contacts";
+                case 1 :
+                    return "Messages";
+                case 2 :
+                    return "Settings";
+
+                default :
+                    return "";
+            }
+
         }
     }
 
