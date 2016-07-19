@@ -2,24 +2,15 @@ package leesc.chatchat;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,6 +28,9 @@ import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.widget.MonitoringEditText;
 
 public class MessageFragment extends Fragment implements DataChange, MonitoringEditText.OnPasteListener {
+
+    public static final String RESPONSE_MSG = "response_msg";
+    public static final String API_ID_PUSH_REQUEST = "push_request";
 
     private Activity mActivity;
     private MessageAdapter mAdapter;
@@ -57,7 +51,20 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
         public void handleMessage(Message msg) {
             mSendButton.setVisibility(View.VISIBLE);
             mImgProgress.setVisibility(View.GONE);
+
             // TODO :: Handler 구현
+            String response = msg.getData().getString(RESPONSE_MSG);
+            if (response.equals(API_ID_PUSH_REQUEST)) {
+                int success = msg.getData().getInt("success");
+                int failure = msg.getData().getInt("failure");
+
+                if (success >= 1) {
+//                    Toast.makeText(mActivity, "푸시 전송에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                } else if (success == 0 && failure >= 1) {
+                    Toast.makeText(mActivity, "푸시 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
 //            String response = msg.getData().getString(OpenApi.RESPONSE_MSG);
 //            int statusCode = msg.getData().getInt(OpenApi.RESPONSE_STATUS_CODE);
 //
@@ -221,6 +228,7 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
             mImgProgress.setVisibility(View.VISIBLE);
             AnimationDrawable frameAnimation = (AnimationDrawable) mImgProgress.getBackground();
             frameAnimation.start();
+
             sendPushMessage(message, mSendType);
         } else {
             Toast.makeText(mActivity, "메시지를 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -229,7 +237,19 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
 
     public void sendPushMessage(final String message, int type) {
         // TODO :: send push 기능 구현
-//        if (!CommonUtilities.isNetworkAvailable(mActivity)) {
+        mInputMessage.setText("");
+
+        mThreadId = MessageDB.getInstance().storeMessage(mActivity, CommonUtils.MESSAGE, "01047323972",
+                        "hmlee", message, MessageDB.SEND_TYPE);
+
+        Message msg = responseHandler.obtainMessage();
+        Bundle bundle = new Bundle();
+        bundle.putString(RESPONSE_MSG, API_ID_PUSH_REQUEST);
+        bundle.putInt("success", 1);
+        bundle.putInt("failure", 0);
+        msg.setData(bundle);
+        responseHandler.sendMessage(msg);
+//        if (!CommonUtils.isNetworkAvailable(mActivity)) {
 //            Toast.makeText(mActivity, "네트워크를 확인 해주세요", Toast.LENGTH_SHORT).show();
 //            mSendButton.setVisibility(View.VISIBLE);
 //            mImgProgress.setVisibility(View.GONE);
