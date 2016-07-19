@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="messages_long_click_right">
+        <item>삭제</item>
+        <item>복사</item>
+        <item>전달</item>
+    </string-array>
+    <string-array name="messages_long_click_image">
+        <item>삭제</item>
+        <item>첨부파일 저장</item>
+        <item>메시지 보호</item>
+        <item>전달</item>
+        <item>공유</item>
+    </string-array>
+    <string-array name="conversations_long_click_multi_recipient">
+        <item>삭제</item>
+    </string-array>
+    <string-array name="conversations_long_click_single_recipient">
+        <item>삭제</item>
+        <item>스팸 번호 등록</item>
+        <item>전화걸기</item>
+        <item>영상통화</item>
+    </string-array>
+
+</resources>

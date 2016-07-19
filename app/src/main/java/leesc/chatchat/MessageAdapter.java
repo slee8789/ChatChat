@@ -3,9 +3,11 @@ package leesc.chatchat;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
@@ -17,10 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import leesc.chatchat.db.DB_Constant;
+import leesc.chatchat.db.MessageDB;
 import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.utils.DateUtils;
+import leesc.chatchat.widget.ConversationsMenuDialog;
+import leesc.chatchat.widget.OkCancelDialog;
 
 public class MessageAdapter extends CursorAdapter {
 
@@ -334,64 +340,60 @@ public class MessageAdapter extends CursorAdapter {
     };
 
     protected void showTextMenuDialog(int position) {
-        CommonUtils.makeToast(mContext, "Menu 기능 미구현");
-        // TODO :: Menu 기능 구현
-//        Cursor cursor = (Cursor) getItem(position);
-//        int resource = R.array.messages_long_click_right;
-//        String title = mContext.getString(R.string.message_option);
-//        long _id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
-//
-//        MessagesMenuItemClickListener listener = new MessagesMenuItemClickListener(_id, position, null) {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
-//                switch (which) {
-//                case 0:
-//                    showMessageDeleteConfirmDialog(manager, getId());
-//                    break;
-//
-//                case 1:
-//                    setClipboardText(getPosition());
-//                    Toast.makeText(mContext, R.string.toast_copy_completed, Toast.LENGTH_SHORT).show();
-//                    break;
-//
-//                case 2:
-//                    forwardMessage(getPosition());
-//                    break;
-//                }
-//            }
-//        };
-//
-//        FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
-//        ConversationsMenuDialog.newInstance(title, resource, listener).show(manager, "TextMenuDialog");
+        Cursor cursor = (Cursor) getItem(position);
+        int resource = R.array.messages_long_click_right;
+        String title = mContext.getString(R.string.message_option);
+        long _id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
+
+        MessagesMenuItemClickListener listener = new MessagesMenuItemClickListener(_id, position, null) {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
+                switch (which) {
+                case 0:
+                    showMessageDeleteConfirmDialog(manager, getId());
+                    break;
+
+                case 1:
+                    setClipboardText(getPosition());
+                    Toast.makeText(mContext, R.string.toast_copy_completed, Toast.LENGTH_SHORT).show();
+                    break;
+
+                case 2:
+                    forwardMessage(getPosition());
+                    break;
+                }
+            }
+        };
+
+        FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager();
+        ConversationsMenuDialog.newInstance(title, resource, listener).show(manager, "TextMenuDialog");
     }
 
     private void showMessageDeleteConfirmDialog(FragmentManager manager, final long _id) {
-        CommonUtils.makeToast(mContext, "Delete 기능 미구현");
-        // TODO :: Delete 기능 구현
-//        OkCancelDialog.newInstance(R.string.delete, R.string.delete_message, new OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                switch (which) {
-//                case DialogInterface.BUTTON_POSITIVE:
-//                    // delete _id thread
-//                    long id = MessageDB.getInstance().deleteMessage(mContext, _id);
-//
-//                    if(id > 0) {
-//                        notifyDataSetChanged();
-//                        Toast.makeText(mContext, R.string.toast_msg_deleted, Toast.LENGTH_SHORT).show();
-//                        MessageDB.getInstance().updateConversation(mContext, mThreadId);
-//                    } else {
-//                        Toast.makeText(mContext, R.string.toast_save_failed, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    break;
-//                default:
-//                    // ignore
-//                    break;
-//                }
-//            }
-//        }).show(manager, "MessageDeleteConfirmDialog");
+        OkCancelDialog.newInstance(R.string.delete, R.string.delete_message, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    // delete _id thread
+                    long id = MessageDB.getInstance().deleteMessage(mContext, _id);
+
+                    if(id > 0) {
+                        notifyDataSetChanged();
+                        Toast.makeText(mContext, R.string.toast_msg_deleted, Toast.LENGTH_SHORT).show();
+                        MessageDB.getInstance().updateConversation(mContext, mThreadId);
+                    } else {
+                        Toast.makeText(mContext, R.string.toast_save_failed, Toast.LENGTH_SHORT).show();
+                    }
+
+                    break;
+                default:
+                    // ignore
+                    break;
+                }
+            }
+        }).show(manager, "MessageDeleteConfirmDialog");
     }
 
     public void setClipboardText(int position) {

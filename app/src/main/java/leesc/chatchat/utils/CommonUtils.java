@@ -34,6 +34,7 @@ public final class CommonUtils {
     // Constants
     public static final String MESSAGE_TYPE = "type";
     public static final String MESSAGE = "message";
+    public static final String RELEASE_NOTIFICATION = "RELEASE_NOTIFICATION";
 
 	private static final boolean LOG_TOAST = true;
 

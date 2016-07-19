@@ -8,4 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 메시지 목록 -->
+    <style name="msg_list_user_title" parent="android:Widget.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#373732</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="msg_list_date" parent="android:Widget.TextView">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#7c7c77</item>
+    </style>
+
+    <style name="msg_list_last_msg" parent="android:Widget.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#696964</item>
+    </style>
+
 </resources>

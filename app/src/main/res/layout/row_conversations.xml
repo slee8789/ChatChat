@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="63dp"
+    android:background="@drawable/selector_list_item" >
+
+    <ImageView
+        android:id="@+id/thumbnail_hidden_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="2dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:background="@mipmap/nav_icon_delete"
+        android:contentDescription="@string/attach_album"
+        android:scaleType="centerCrop" />
+    
+    <ImageView
+        android:id="@+id/thumbnail_hidden_image2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="7dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/nav_icon_delete"
+        android:contentDescription="@string/attach_album"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:id="@+id/list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:background="@drawable/selector_list_item"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/conversation_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/selector_checkbox"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <ImageView
+            android:id="@+id/thumbnail_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:contentDescription="@string/attach_album"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="7dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" >
+
+                    <TextView
+                        android:id="@+id/user_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:ellipsize="end"
+                        android:gravity="bottom"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/msg_list_user_title" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/last_message_date"
+                    android:layout_width="105dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:ellipsize="start"
+                    android:gravity="right"
+                    android:minWidth="105dp"
+                    android:singleLine="true"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/msg_list_date" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp" >
+
+                <TextView
+                    android:id="@+id/last_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/msg_list_last_msg" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/feed_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/chat_list_feed_icon"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

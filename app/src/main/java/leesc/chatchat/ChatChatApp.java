@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import leesc.chatchat.db.RecipientIdCache;
+import leesc.chatchat.utils.DummyContact;
 
 /**
  * Created by HM on 2016. 7. 18..
