@@ -65,25 +65,7 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
                 }
 
             }
-//            String response = msg.getData().getString(OpenApi.RESPONSE_MSG);
-//            int statusCode = msg.getData().getInt(OpenApi.RESPONSE_STATUS_CODE);
-//
-//            if (response.equals(OpenApi.RESPONSE_MSG_ERROR)) {
-//                Toast.makeText(mActivity, "서버 연동에 실패하였습니다. 잠시 후 다시 시도해 주십시오.", Toast.LENGTH_SHORT).show();
-//                // startActivity(new Intent(mActivity, MessagesActivity.class).putExtra(MessagesActivity.THREAD_ID,
-//                // mThreadId));
-//            } else if (response.equals(OpenApi.API_ID_PUSH_REQUEST)) {
-//                int success = msg.getData().getInt("success");
-//                int failure = msg.getData().getInt("failure");
-//
-//                if (success >= 1) {
-//                    Toast.makeText(mActivity, "푸시 전송에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-//                } else if (success == 0 && failure >= 1) {
-//                    Toast.makeText(mActivity, "푸시 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-//                }
-//                // startActivity(new Intent(mActivity, MessagesActivity.class).putExtra(MessagesActivity.THREAD_ID,
-//                // mThreadId));
-//            }
+
         }
     };
 
@@ -249,89 +231,6 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
         bundle.putInt("failure", 0);
         msg.setData(bundle);
         responseHandler.sendMessage(msg);
-//        if (!CommonUtils.isNetworkAvailable(mActivity)) {
-//            Toast.makeText(mActivity, "네트워크를 확인 해주세요", Toast.LENGTH_SHORT).show();
-//            mSendButton.setVisibility(View.VISIBLE);
-//            mImgProgress.setVisibility(View.GONE);
-//            return;
-//        }
-//        mInputMessage.setText("");
-//        PushMessage pushMessage = new PushMessage();
-//        final StringBuilder sendNames = new StringBuilder();
-//        final StringBuilder sendNumbers = new StringBuilder();
-//
-//        String names = RecipientIdCache.getAddress(Long.toString(mThreadId)).names;
-//        String numbers = RecipientIdCache.getAddress(Long.toString(mThreadId)).numbers;
-//
-//        String[] namesArr = null;
-//        String[] numbersArr = null;
-//        try {
-//            namesArr = names.replace(" ", "").split("\\,");
-//            numbersArr = numbers.replace(" ", "").split("\\,");
-//
-//            for (int i = 0; i < namesArr.length; i++) {
-//                pushMessage.request.addPushList(namesArr[i], numbersArr[i], message,
-//                        HPMS_Prefs.getPhoneNumber(mActivity), "", "");
-//            }
-//
-//            sendNames.append(names);
-//            sendNumbers.append(numbers);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        SubTransaction trSubsInfo = new SubTransaction(mActivity, new CallbackFunc<Object>() {
-//
-//            @Override
-//            public void callback(ResponseBody object, Object[]... args) {
-//                Message msg = responseHandler.obtainMessage();
-//                Bundle bundle = new Bundle();
-//                String messageType = object.getMessageType() == 1 ? CommonUtilities.ATTENDANCE
-//                        : CommonUtilities.MESSAGE;
-//                String tempMessage = message;
-//                if (messageType == CommonUtilities.ATTENDANCE) {
-//                    tempMessage = object.resultMessage;
-//                }
-//                if (object == null || object.getResponseBody() == null) {
-//                    bundle.putString(OpenApi.RESPONSE_MSG, OpenApi.RESPONSE_MSG_ERROR);
-//                    msg.setData(bundle);
-//                    responseHandler.sendMessage(msg);
-//                    mThreadId = MessageDB.getInstance().storeMessage(mActivity, messageType, sendNumbers.toString(),
-//                            sendNames.toString(), tempMessage, HPMS_Constant.SEND_TYPE_FAIL);
-//                    return;
-//                }
-//                if (!OpenApi.isSuccessResponse(object.getStatusCode())) {
-//                    bundle.putString(OpenApi.RESPONSE_MSG, OpenApi.RESPONSE_MSG_ERROR);
-//                    bundle.putInt(OpenApi.RESPONSE_STATUS_CODE, object.getStatusCode());
-//                    msg.setData(bundle);
-//                    responseHandler.sendMessage(msg);
-//                    mThreadId = MessageDB.getInstance().storeMessage(mActivity, messageType, sendNumbers.toString(),
-//                            sendNames.toString(), tempMessage, HPMS_Constant.SEND_TYPE_FAIL);
-//                    return;
-//                }
-//                mThreadId = MessageDB.getInstance().storeMessage(mActivity, messageType, sendNumbers.toString(),
-//                        sendNames.toString(), tempMessage, HPMS_Constant.SEND_TYPE);
-//                PushMessage subsInfo = new PushMessage();
-//                subsInfo.response = (PushMessageResponse) object.getResponseBody();
-//
-//                int success = subsInfo.response.getSuccess();
-//                int failure = subsInfo.response.getFailure();
-//
-//                bundle.putString(OpenApi.RESPONSE_MSG, OpenApi.API_ID_PUSH_REQUEST);
-//                bundle.putInt(OpenApi.RESPONSE_STATUS_CODE, object.getStatusCode());
-//                bundle.putInt("success", success);
-//                bundle.putInt("failure", failure);
-//                msg.setData(bundle);
-//                responseHandler.sendMessage(msg);
-//            }
-//
-//        });
-//        trSubsInfo.setApiId(OpenApi.API_ID_PUSH_REQUEST);
-//        trSubsInfo.setMethod(OpenApi.METHOD_POST);
-//        trSubsInfo.setType(type);
-//        trSubsInfo.setRequestData(pushMessage.request);
-//        trSubsInfo.process();
     }
 
 

@@ -1,7 +1,6 @@
 package leesc.chatchat;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -185,59 +184,6 @@ public class ConversationsFragment extends Fragment implements android.view.View
             }
         }.start();
     }
-    
-//    private String copyDbToSdcard(Context context) {
-//
-//        String fromFolder = context.getFilesDir().getParentFile().getPath();
-//        String toParent = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + context.getPackageName();
-//
-//        File source = new File(fromFolder);
-//        File dest = new File(toParent, new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date(System
-//                .currentTimeMillis())));
-//
-//
-//        if (dest.mkdirs()) {
-//            copyFile(source, dest);
-//        }
-//
-//        return "Every data file is in folder \"" + dest.getAbsolutePath() + "\"";
-//    }
-//
-//    private void copyFile(File sourceF, File targetF) {
-//
-//        File[] ff = sourceF.listFiles();
-//        for (File file : ff) {
-//            File temp = new File(targetF.getAbsolutePath() + File.separator + file.getName());
-//            if (file.isDirectory()) {
-//                temp.mkdir();
-//                copyFile(file, temp);
-//            } else {
-//                FileInputStream fis = null;
-//                FileOutputStream fos = null;
-//                try {
-//                    fis = new FileInputStream(file);
-//                    fos = new FileOutputStream(temp);
-//                    byte[] b = new byte[4096];
-//                    int cnt = 0;
-//                    while ((cnt = fis.read(b)) != -1) {
-//                        fos.write(b, 0, cnt);
-//                    }
-//                } catch (Exception e) {
-//                } finally {
-//                    try {
-//                        if (fis != null) {
-//                            fis.close();
-//                        }
-//                        if (fos != null) {
-//                            fos.close();
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private Handler mMessageHandler = new Handler() {
         public void handleMessage(Message msg) {

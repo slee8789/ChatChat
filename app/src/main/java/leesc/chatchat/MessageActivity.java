@@ -183,28 +183,6 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
 
     private void setActionBarTitle() {
         // TODO :: ActionBar Title set
-//        String title = "";
-//        RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
-//        if (entry != null && entry.names != null) {
-//            title = entry.names;
-//        }
-//        final String actionBarTitle = title;
-//        // if (mRecipients.size() < 1) {
-//        // title = getString(R.string.activity_label_messages);
-//        // } else if (mRecipients.size() == 1) {
-//        // title = mRecipients.get(0).getNumber();
-//        // } else {
-//        // String firstRecipient = mRecipients.get(0).getNumber();
-//        // int otherCount = mRecipients.size() - 1;
-//        // title = getString(R.string.messages_multi_recipient_title, firstRecipient, otherCount);
-//        // }
-//
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                mActionBar.setTitle(actionBarTitle);
-//            }
-//        });
     }
 
     class ReceiverData {
@@ -279,14 +257,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//        case R.id.sms_btn:
-//            Uri uri = Uri.parse("smsto:" + v.getTag().toString());
-//            Intent it = new Intent(Intent.ACTION_SENDTO, uri);
-//            startActivity(it);
-//            break;
-//        case R.id.call_btn:
-//            PhoneUtils.startPhoneCall(this, v.getTag().toString());
-//            break;
+            // TODO :: click 기능 추가
         }
     }
 }
