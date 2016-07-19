@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="tag_holder_left" type="id"/>
+    <item name="tag_holder_right" type="id"/>
+    <item name="tag_position" type="id"/>
+    <item name="tag_multimedia" type="id"/>
+    <item name="tag_contact_holder" type="id"/>
+    <item name="tag_contact_item" type="id"/>
+    <item name="tag_receiver_item" type="id" />
+    <item name="tag_message_id" type="id" />
+</resources>

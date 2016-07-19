@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fffffa"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/messages_drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
+
+            <FrameLayout
+                android:id="@+id/messages_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ListView
+                android:id="@+id/messages_drawer"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="#fff"
+                android:choiceMode="singleChoice"
+                android:divider="#dcdcdc"
+                android:dividerHeight="1dp" />
+        </android.support.v4.widget.DrawerLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/popup_btn_bg"
+    >
+    
+    <LinearLayout
+        android:id="@+id/bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <leesc.chatchat.widget.MonitoringEditText
+            android:id="@+id/message_text_editor"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:hint="@string/message_input"
+            android:imeOptions="actionSend|flagNoEnterAction"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:nextFocusRight="@+id/send_button" />
+
+        <requestFocus />
+
+        <RelativeLayout
+            android:layout_width="46.0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6.7dp" >
+
+            <!--
+                 <TextView
+                android:id="@+id/sms_byte_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/btn_send"
+                android:layout_marginTop="5dp"
+                android:text="0"
+                android:textColor="#ffa8a8a8"
+                android:textSize="12sp" />
+            -->
+
+            <Button
+                android:id="@+id/message_send_btn"
+                android:layout_width="46.0dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/selector_btn_popup"
+                android:text="@string/send" />
+
+            <ImageView
+                android:id="@+id/message_img_progress"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/doing_progress"
+                android:contentDescription="@string/app_name"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_panel" >
+
+        <ImageView
+            android:id="@+id/message_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F9FBE7"
+            android:contentDescription="@string/back_image"
+            android:scaleType="centerCrop" />
+
+        <ListView
+            android:id="@+id/messages_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:listSelector="@android:color/transparent"
+            android:stackFromBottom="false"
+            android:transcriptMode="normal" />
+    </RelativeLayout>
+
+</RelativeLayout>

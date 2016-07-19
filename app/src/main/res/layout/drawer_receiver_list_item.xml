@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="74dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="@drawable/popup_bg"
+        >
+
+    <ImageView
+            android:id="@+id/item_img"
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:background="@mipmap/contact"
+            android:contentDescription="@string/album"
+            android:layout_gravity="center_horizontal"
+            />
+
+    <TextView
+            android:id="@+id/item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/item_img"
+            android:layout_toLeftOf="@+id/sms_btn"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:padding="1dp"
+            android:gravity="center"
+            android:layout_alignTop="@+id/item_img"
+            android:layout_marginTop="6dp"
+            android:textSize="18sp"
+            android:textColor="#ff000000"
+            android:textStyle="bold"
+            android:text="@string/abc_action_bar_home_description"
+            />
+    <TextView
+            android:id="@+id/item_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/item_img"
+            android:layout_toLeftOf="@+id/sms_btn"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:padding="1dp"
+            android:gravity="center"
+            android:layout_marginBottom="6dp"
+            android:layout_alignBottom="@+id/item_img"
+            android:textSize="14sp"
+            android:textColor="#ff000000"
+            android:text="@string/abc_action_bar_home_subtitle_description_format"
+            />
+
+    <Button
+        android:id="@+id/sms_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignTop="@+id/item_img"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/message_icon_message" />
+
+    <Button
+        android:id="@+id/call_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignBottom="@+id/item_img"
+        android:layout_alignParentRight="true"
+        android:background="@android:drawable/ic_menu_call" />
+
+</RelativeLayout>
