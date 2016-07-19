@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment[] arrFragments = new Fragment[3];
         arrFragments[0] = new ContactsFragment();
-        arrFragments[1] = new MessagesFragment();
+        // FIXME :: MessagesFragment 를 ConversationsFragment 로 변경함
+        arrFragments[1] = new ConversationsFragment();
         arrFragments[2] = new SettingsFragment();
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), arrFragments);
