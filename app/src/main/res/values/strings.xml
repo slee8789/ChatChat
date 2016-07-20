@@ -39,6 +39,7 @@
     <string name="attach_album">이미지</string>
     <string name="message_input">메시지 입력</string>
     <string name="send">전송</string>
+    <string name="all_select">전체 선택</string>
     <string name="back_image">배경</string>
     <string name="toast_copy_completed">복사되었습니다.</string>
     <string name="toast_save_failed">실패하였습니다.</string>
@@ -47,4 +48,9 @@
 
     <!-- contact -->
     <string name="common_no_number">발신자 정보 없음</string>
+    <string name="contact_index_initial">ㄱ</string>
+    <string name="contact_search">연락처 검색</string>
+    <string name="contact_confirm">확인</string>
+    <string name="contact_cancel">취소</string>
+    <string name="str_empty_list">검색 결과가 없습니다.</string>
 </resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f5f5f0"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription" >
+
+    <LinearLayout
+        android:id="@+id/contact_item_initial_chosung_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <TextView
+            android:id="@+id/contact_item_initial_chosung_text"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/contact_index_initial"
+            android:textColor="#373732"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d7d7d2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@drawable/chat_list_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/contact_item_select_checkbox"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:button="@drawable/selector_checkbox"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="7dp" >
+
+            <ImageView
+                android:id="@+id/contact_item_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/list_thumbnail_round_bg" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="32dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <com.hansol.hpms.widget.HighlightTextView
+                android:id="@+id/contact_item_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/app_name"
+                android:textColor="#373732"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <com.hansol.hpms.widget.HighlightTextView
+                android:id="@+id/contact_item_number_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#696964"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d7d7d2" />
+
+</LinearLayout>

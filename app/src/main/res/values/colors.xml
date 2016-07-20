@@ -6,5 +6,6 @@
 
     <color name="common_text_color">#373732</color>
     <color name="common_searched_text_color">#f04f63</color>
+    <color name="contact_searched_text_color">#00b4fa</color>
     <color name="list_item_sel">#edede8</color>
 </resources>

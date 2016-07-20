@@ -1,13 +1,129 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="leesc.chatchat.MainActivity">
+    android:orientation="vertical" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="친구 프레그먼트" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/contats_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f0f0eb"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="37dp"
+                android:layout_height="42dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/message_map_search_icon" />
+
+            <EditText
+                android:id="@+id/contacts_search_edit"
+                android:layout_toRightOf="@id/search_icon"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/contact_search"
+                android:imeOptions="flagNoFullscreen"
+                android:paddingLeft="7dp"
+                android:singleLine="true"
+                android:textColorHint="#9b9b96"
+                android:textSize="17sp" />
+            
+            <Button
+                android:id = "@+id/all_select"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:textSize ="12sp"
+                android:text="@string/all_select" 
+                android:visibility="gone"
+                android:background="@drawable/all_selected_btn_selector"
+                android:layout_below="@id/contacts_search_edit"
+                />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/contats_search_layout" >
+
+            <ListView
+                android:id="@+id/contacts_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/layout_list_empty" />
+        </FrameLayout>
+
+        <leesc.chatchat.widget.IndexBar
+            android:id="@+id/contacts_indexbar"
+            android:layout_width="27dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/contats_search_layout"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/etc_contact_bg" />
+
+        <TextView
+            android:id="@+id/contacts_index_text"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/etc_contact_info_bg"
+            android:gravity="center"
+            android:text="@string/contact_index_initial"
+            android:textColor="#ffffff"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/contact_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@drawable/chat_alarm_bg"
+        android:paddingBottom="12dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="17dp" >
+
+        <Button
+            android:id="@+id/contact_cancel_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_bg_close"
+            android:text="@string/contact_cancel"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/contact_confirm_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_bg_close"
+            android:text="@string/contact_confirm"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -15,6 +15,7 @@
  */
 package leesc.chatchat.utils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -30,6 +31,9 @@ import android.widget.Toast;
  * app.
  */
 public final class CommonUtils {
+
+    public static boolean sMultiSelectMode;
+    public static HashMap<String, Boolean> sCheckedItems = new HashMap<String, Boolean>();
 
     // Constants
     public static final String MESSAGE_TYPE = "type";
