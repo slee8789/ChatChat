@@ -72,7 +72,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
-            <com.hansol.hpms.widget.HighlightTextView
+            <leesc.chatchat.widget.HighlightTextView
                 android:id="@+id/contact_item_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <com.hansol.hpms.widget.HighlightTextView
+            <leesc.chatchat.widget.HighlightTextView
                 android:id="@+id/contact_item_number_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

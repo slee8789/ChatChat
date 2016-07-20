@@ -98,24 +98,12 @@ public class ContactsFragment extends Fragment implements OnClickListener {
     private void initViews() {
         setHasOptionsMenu(true);
         // TODO :: contact list setting
-//        if (SplashActivity.sAddressList == null || SplashActivity.sAddressList.size() == 0) {
-//            boolean result = HPMS_Prefs.getAddressFromPrefs(HPMS_Prefs.getAddress(mActivity));
-//            HPMS_Prefs.getDepartmentFromPrefs(HPMS_Prefs.getDepartment(mActivity));
-//            if (!result) {
-//                //TO DO :: 주소록 가져오기 실패 서버에서 다시 가져온다.
-//                redownloadContact();
-//                return;
-//            }
-//        }
-//        if (mPosition > 0 && sContactList.size() == 0) {
-//            for (Contact addr : SplashActivity.sAddressList) {
-//                if (addr.getDepartment().equals(SplashActivity.sDepartmentList.get(mPosition - 1).getDepartment())) {
-//                    sContactList.add(addr);
-//                }
-//            }
-//        } else if (mPosition == 0 && sContactList.size() == 0) {
-//            sContactList.addAll(SplashActivity.sAddressList);
-//        }
+
+        Contact contact1 = new Contact("tester1", "01011112222", "test@gmail.com", null);
+        Contact contact2 = new Contact("tester2", "01033334444", "test@gmail.com", null);
+        sContactList.add(contact1);
+        sContactList.add(contact2);
+
         mAdapter = new ContactsAdapter(mActivity, sContactList, sMultiSelectMode);
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(mEmptyView);
@@ -148,8 +136,6 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                     items.add(item);
 
                     // TODO :: contact list click event set
-
-//                    HPMS_Prefs.sContactsSendList = items;
 //
 //                    Intent intent = new Intent(mActivity, ComposeActivity.class);
 //                    intent.putExtra(ComposeActivity.SEND_FROM, ComposeActivity.SEND_FROM_CONTACTS);
@@ -218,7 +204,6 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                 // mAdapter.setMultiSelectMode(mMultiSelectMode);
                 // mAdapter.notifyDataSetChanged();
                 mListener.onConfirm();
-                // HPMS_Prefs.sContactsSendList = items;
                 //
                 // Intent intent = new Intent(mActivity, ComposeActivity.class);
                 // intent.putExtra(ComposeActivity.SEND_FROM, ComposeActivity.SEND_FROM_CONTACTS);
