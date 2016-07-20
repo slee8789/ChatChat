@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -244,15 +245,20 @@ public class ContactsFragment extends Fragment implements OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_write_message:
-                if (!sMultiSelectMode) {
-                    sMultiSelectMode = true;
-                    setVisibleLayout();
-                    mAdapter.setMultiSelectMode(sMultiSelectMode);
-                    mAdapter.notifyDataSetChanged();
-                    mListener.onRefresh();
-                } else {
-                }
+//            case R.id.action_write_message:
+//                if (!sMultiSelectMode) {
+//                    sMultiSelectMode = true;
+//                    setVisibleLayout();
+//                    mAdapter.setMultiSelectMode(sMultiSelectMode);
+//                    mAdapter.notifyDataSetChanged();
+//                    mListener.onRefresh();
+//                } else {
+//                }
+//                return true;
+
+            case R.id.action_add_contact:
+                // TODO :: 친구추가 기능 구현 필요
+                Toast.makeText(mActivity, "친구추가 기능 구현 필요", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

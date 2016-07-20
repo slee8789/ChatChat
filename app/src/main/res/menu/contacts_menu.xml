@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <item
-        android:id="@+id/action_write_message"
-        android:icon="@mipmap/nav_icon_write"
+        android:id="@+id/action_add_contact"
+        android:icon="@mipmap/nav_icon_add"
         android:orderInCategory="100"
         android:title="@string/action_write_message"
         app:showAsAction="always"/>
