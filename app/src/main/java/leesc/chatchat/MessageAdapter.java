@@ -24,6 +24,7 @@ import android.widget.Toast;
 import leesc.chatchat.db.DB_Constant;
 import leesc.chatchat.db.MessageDB;
 import leesc.chatchat.utils.CommonUtils;
+import leesc.chatchat.utils.ConfigSettingPreferences;
 import leesc.chatchat.utils.DateUtils;
 import leesc.chatchat.widget.ConversationsMenuDialog;
 import leesc.chatchat.widget.OkCancelDialog;
@@ -97,52 +98,15 @@ public class MessageAdapter extends CursorAdapter {
 
         long date = cursor.getLong(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_DATE));
         String body = (cursor.getString(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_BODY)));
-        // TODO :: size 변경 기능 구현
-        int fontSize = 16;
-//        int fontSize = ConfigSettingPreferences.getInstance(mContext).getPrefTextSize();
+        int fontSize = ConfigSettingPreferences.getInstance(mContext).getPrefTextSize();
         
         String msgType = cursor.getString(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_TYPE));
 
         if (msgType.equals(CommonUtils.MESSAGE)) {
             holder.bubbleText.setVisibility(View.VISIBLE);
-//            holder.attendanceButton.setVisibility(View.GONE);
-//            holder.bubbleText.setText("");
-//            if (JLSSmileyParser.getInstance().checkSmilySpans(body)) {
-//                holder.bubbleText.append(JLSSmileyParser.getInstance().addSmileySpans(body));
-//            } else {
-//                holder.bubbleText.setText(body);
-//            }
             holder.bubbleText.setText(body);
             holder.bubbleText.setTextSize(fontSize);
         }
-
-//        else if (msgType.equals(CommonUtilities.ATTENDANCE)) {
-//            holder.bubbleText.setVisibility(View.GONE);
-//            holder.attendanceButton.setClickable(true);
-//            holder.attendanceButton.setVisibility(View.VISIBLE);
-//            holder.attendanceButton.setTextSize(fontSize);
-//            holder.attendanceButton.setOnClickListener(mLeftClickListener);
-//            holder.attendanceButton.setTag(R.id.tag_position, cursor.getPosition());
-//            holder.attendanceButton.setTag(R.id.tag_message_id, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-//        } else if (msgType.equals(CommonUtilities.ATTENDANCE_COMPLETE)) {
-//            holder.bubbleText.setVisibility(View.GONE);
-//            holder.attendanceButton.setVisibility(View.VISIBLE);
-//            holder.attendanceButton.setTextSize(fontSize);
-//            holder.attendanceButton.setClickable(false);
-//            holder.attendanceButton.setPressed(true);
-//            holder.attendanceButton.setText(R.string.attendance_complete);
-//            holder.attendanceButton.setTag(R.id.tag_position, cursor.getPosition());
-//            holder.attendanceButton.setTag(R.id.tag_message_id, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-//            holder.attendanceButton.setBackgroundResource(R.drawable.bottom_bt_press);
-//        } else if (msgType.equals(CommonUtilities.ATTENDANCE_FAIL)) {
-//            holder.bubbleText.setVisibility(View.GONE);
-//            holder.attendanceButton.setVisibility(View.VISIBLE);
-//            holder.attendanceButton.setTextSize(fontSize);
-//            holder.attendanceButton.setOnClickListener(mLeftClickListener);
-//            holder.attendanceButton.setTag(R.id.tag_message_id, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-//            holder.attendanceButton.setTag(R.id.tag_position, cursor.getPosition());
-//        }
-//        holder.attendanceButton.setOnLongClickListener(mBubbleLongClickListener);
         
         if (isNewDay(cursor)) {
             holder.dateLayout.setVisibility(View.VISIBLE);
@@ -162,34 +126,13 @@ public class MessageAdapter extends CursorAdapter {
 
         long date = cursor.getLong(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_DATE));
         String body = (cursor.getString(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_BODY)));
-        // TODO :: size 변경 기능 구현
-        int fontSize = 16;
-//        int fontSize = ConfigSettingPreferences.getInstance(mContext).getPrefTextSize();
+        int fontSize = ConfigSettingPreferences.getInstance(mContext).getPrefTextSize();
         String msgType = cursor.getString(cursor.getColumnIndex(DB_Constant.MESSAGES_FIELD_TYPE));
         if (msgType.equals(CommonUtils.MESSAGE)) {
             holder.bubbleText.setVisibility(View.VISIBLE);
-//
-//            holder.bubbleText.setText("");
-//            if (JLSSmileyParser.getInstance().checkSmilySpans(body)) {
-//                holder.bubbleText.append(JLSSmileyParser.getInstance().addSmileySpans(body));
-//            } else {
-//                holder.bubbleText.setText(body);
-//            }
-
             holder.bubbleText.setText(body);
             holder.bubbleText.setTextSize(fontSize);
         }
-
-//        else if (msgType.equals(CommonUtilities.ATTENDANCE)) {
-//            holder.bubbleText.setVisibility(View.GONE);
-//            holder.attendanceButton.setClickable(true);
-//            holder.attendanceButton.setVisibility(View.VISIBLE);
-//            holder.attendanceButton.setTextSize(fontSize);
-//            holder.attendanceButton.setOnClickListener(mRightClickListener);
-//            holder.attendanceButton.setTag(R.id.tag_position, cursor.getPosition());
-//            holder.attendanceButton.setTag(R.id.tag_message_id, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-//        }
-//        holder.attendanceButton.setOnLongClickListener(mBubbleLongClickListener);
 
         if (isNewDay(cursor)) {
             holder.dateLayout.setVisibility(View.VISIBLE);

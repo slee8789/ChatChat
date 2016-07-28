@@ -269,37 +269,6 @@ public class ConfigFragment extends Fragment {
         mConfigList.clear();
         initViews();
     }
-    
-//    private void showNotiSoundDialog() {
-//        String title = getResources().getString(R.string.notice_sound);
-//        final String[] dummyNotiSoundArray = getResources().getStringArray(R.array.dummy_noti_sound_array);
-//        int selectedPosition = ConfigSettingPreferences.getInstance(mActivity)
-//            .getPrefNotiSoundIndex();
-//        mNotiSoundDialog = new ListDialogFragment(mActivity, title, dummyNotiSoundArray, selectedPosition);
-//        mNotiSoundDialog.show(getFragmentManager(), "NotiSoundSetting");
-//        mNotiSoundDialog.setNegativeButton(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mNotiSoundDialog.dismiss();
-//            }
-//        });
-//        mNotiSoundDialog.setPositiveButton(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setNotiSoundPreferences(dummyNotiSoundArray);
-//                mNotiSoundDialog.dismiss();
-//            }
-//        });
-//    }
-//    
-//    private void setNotiSoundPreferences(final String[] notiSoundArray) {
-//        ConfigSettingPreferences.getInstance(mActivity).setPrefNotiSoundIndex(
-//            mNotiSoundDialog.getSelectedPosition());
-//        ConfigSettingPreferences.getInstance(mActivity).setPrefNotiSoundName(
-//            notiSoundArray[mNotiSoundDialog.getSelectedPosition()]);
-//        mConfigList.clear();
-//        initViews();
-//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -311,13 +280,12 @@ public class ConfigFragment extends Fragment {
         case BG_SETTING_COLOR:
             break;
         case BG_SETTING_ALBUM:
-            // TODO :: 기능 구현 필요
-//            Uri imgUri = data.getData();
-//            Intent intent = new Intent(new Intent(mActivity, ConfigPreviewActivity.class))
-//                .setData(imgUri)
-//                .putExtra(ConfigPreviewActivity.INTENT_EXTRA_PREVIEW_TYPE,
-//                    ConfigPreviewActivity.PREVIEW_TYPE_PHOTO_SELECT);
-//            startActivityForResult(intent, BG_SETTING_PREVIEW);
+            Uri imgUri = data.getData();
+            Intent intent = new Intent(new Intent(mActivity, ConfigPreviewActivity.class))
+                .setData(imgUri)
+                .putExtra(ConfigPreviewActivity.INTENT_EXTRA_PREVIEW_TYPE,
+                    ConfigPreviewActivity.PREVIEW_TYPE_PHOTO_SELECT);
+            startActivityForResult(intent, BG_SETTING_PREVIEW);
             break;
         case BG_SETTING_PICTURE:
             break;

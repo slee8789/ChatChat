@@ -25,6 +25,7 @@ import leesc.chatchat.db.DataChange;
 import leesc.chatchat.db.DataObserver;
 import leesc.chatchat.db.MessageDB;
 import leesc.chatchat.utils.CommonUtils;
+import leesc.chatchat.utils.ConfigSettingPreferences;
 import leesc.chatchat.widget.MonitoringEditText;
 
 public class MessageFragment extends Fragment implements DataChange, MonitoringEditText.OnPasteListener {
@@ -127,7 +128,6 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 String str = mInputMessage.getEditableText().toString();
                 int index = mInputMessage.getSelectionStart();
                 mInputMessage.setText("");
@@ -143,9 +143,8 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
     }
 
     private void setBackground() {
-        // TODO :: Background 기능 구현
-//        String uri = ConfigSettingPreferences.getInstance(mActivity).getPrefBackgroundUri();
-//        mImageLoader.displayImage(uri, mBackgroundImage, mOptions);
+        String uri = ConfigSettingPreferences.getInstance(mActivity).getPrefBackgroundUri();
+        mImageLoader.displayImage(uri, mBackgroundImage, mOptions);
     }
 
     private void queryMessages(final long threadId) {
