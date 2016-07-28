@@ -5,7 +5,14 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="common_text_color">#373732</color>
+    <color name="common_sub_text_color">#696964</color>
     <color name="common_searched_text_color">#f04f63</color>
     <color name="contact_searched_text_color">#00b4fa</color>
     <color name="list_item_sel">#edede8</color>
+
+    <color name="config_menu_comment_text_color">#696964</color>
+    <color name="config_menu_sub_text_on_color">#f04f63</color>
+    <color name="config_menu_sub_text_off_color">#c9c9c4</color>
+    <color name="config_sub_title_text_color">#373732</color>
+    <color name="config_sub_title_bg_color">#f0f0eb</color>
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_list_item"
+    android:visibility="visible" >
+
+    <ImageView
+        android:id="@+id/config_check_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:background="@mipmap/info_set_icon_bg_on"
+        android:scaleType="center"
+        android:src="@mipmap/setlist_info_icon" />
+
+    <TextView
+        android:id="@+id/config_check_item_title"
+        android:layout_width="0dp"
+        android:layout_height="62dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:textColor="@drawable/selector_config_menu_text"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/config_check_item_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/config_menu_sub_text_on_color"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/config_check_item_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/check_right_selector"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+</LinearLayout>
