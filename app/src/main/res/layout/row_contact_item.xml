@@ -43,7 +43,7 @@
             android:id="@+id/contact_item_select_checkbox"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:button="@drawable/selector_checkbox"
+            android:layout_marginLeft="10dp"
             android:clickable="false"
             android:focusable="false" />
 
