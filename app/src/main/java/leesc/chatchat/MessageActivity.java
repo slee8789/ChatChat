@@ -182,7 +182,28 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
     }
 
     private void setActionBarTitle() {
-        // TODO :: ActionBar Title set
+        String title = "";
+        RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
+        if (entry != null && entry.names != null) {
+            title = entry.names;
+        }
+        final String actionBarTitle = title;
+        // if (mRecipients.size() < 1) {
+        // title = getString(R.string.activity_label_messages);
+        // } else if (mRecipients.size() == 1) {
+        // title = mRecipients.get(0).getNumber();
+        // } else {
+        // String firstRecipient = mRecipients.get(0).getNumber();
+        // int otherCount = mRecipients.size() - 1;
+        // title = getString(R.string.messages_multi_recipient_title, firstRecipient, otherCount);
+        // }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportActionBar().setTitle(actionBarTitle);
+            }
+        });
     }
 
     class ReceiverData {
