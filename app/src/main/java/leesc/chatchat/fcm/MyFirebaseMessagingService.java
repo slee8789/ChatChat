@@ -30,6 +30,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import leesc.chatchat.MainActivity;
 import leesc.chatchat.R;
+import leesc.chatchat.db.MessageDB;
+import leesc.chatchat.utils.CommonUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -66,6 +68,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
+
+        String email = remoteMessage.getData().get("email");
+        String sender = remoteMessage.getData().get("sender");
+        String message = remoteMessage.getData().get("message");
+
+        MessageDB.getInstance().storeMessage(MyFirebaseMessagingService.this, CommonUtils.MESSAGE, email, sender, message, MessageDB.RECEIVE_TYPE);
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.

@@ -85,7 +85,7 @@ public class ConversationsFragment extends Fragment implements android.view.View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_move_message:
-            MessageDB.getInstance().storeMessage(mActivity, CommonUtils.MESSAGE, "01047323972", "hmlee", "test message", MessageDB.RECEIVE_TYPE);
+//            MessageDB.getInstance().storeMessage(mActivity, CommonUtils.MESSAGE, "01047323972", "hmlee", "test message", MessageDB.RECEIVE_TYPE);
 //            Intent intent = new Intent(mActivity, ComposeActivity.class);
 //            intent.putExtra(ComposeActivity.SEND_FROM, ComposeActivity.SEND_FROM_CONVERSATION);
 //            mActivity.startActivity(intent);
