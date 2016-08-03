@@ -1,6 +1,7 @@
 package leesc.chatchat;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -32,7 +33,9 @@ import leesc.chatchat.db.ConversationItemData;
 import leesc.chatchat.db.DataChange;
 import leesc.chatchat.db.DataObserver;
 import leesc.chatchat.db.MessageDB;
+import leesc.chatchat.fcm.MyFirebaseMessagingService;
 import leesc.chatchat.utils.CommonUtils;
+import leesc.chatchat.utils.ConfigSettingPreferences;
 import leesc.chatchat.widget.OkCancelDialog;
 import leesc.chatchat.widget.SwipeDismissListViewTouchListener;
 
@@ -65,11 +68,7 @@ public class ConversationsFragment extends Fragment implements android.view.View
         super.onResume();
         DataObserver.getInstance().addObserver(this);
         queryConversations();
-//        Intent intent = new Intent();
-//    	intent.setAction(CommonUtils.RELEASE_NOTIFICATION);
-//    	ComponentName comp = new ComponentName(mActivity.getPackageName(), GcmIntentService.class.getName());
-//        // Start the service, keeping the device awake while it is launching.
-//    	mActivity.startService((intent.setComponent(comp)));
+        ConfigSettingPreferences.getInstance(mActivity).releaseNotification();
     }
 
 
@@ -85,6 +84,7 @@ public class ConversationsFragment extends Fragment implements android.view.View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_move_message:
+            // TODO :: 추후 단체 메시지 등 기능 추가 필요
 //            MessageDB.getInstance().storeMessage(mActivity, CommonUtils.MESSAGE, "01047323972", "hmlee", "test message", MessageDB.RECEIVE_TYPE);
 //            Intent intent = new Intent(mActivity, ComposeActivity.class);
 //            intent.putExtra(ComposeActivity.SEND_FROM, ComposeActivity.SEND_FROM_CONVERSATION);

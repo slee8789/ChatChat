@@ -85,11 +85,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         if(ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeNotification()) {
-            setPushNotification(getApplicationContext(), 0, message, number, sender);
+            ConfigSettingPreferences.getInstance(getApplicationContext()).setPushNotification(0, message, number, sender);
         }
-
-        int unreadCount = MessageDB.getInstance().queryForUnreadCount(MyFirebaseMessagingService.this);
-        CommonUtils.updateIconBadge(MyFirebaseMessagingService.this, unreadCount);
 
         if (!PhoneUtils.isScreenOn(getApplicationContext())
                 && ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeMessage()) {
@@ -102,8 +99,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            startActivity(i);
         }
+
+        // 앱의 Badge Icon 업데이트에 사용될 Unread Count를 업데이트 한다.
+        int unreadCount = MessageDB.getInstance().queryForUnreadCount(MyFirebaseMessagingService.this);
+        CommonUtils.updateIconBadge(MyFirebaseMessagingService.this, unreadCount);
     }
     // [END receive_message]
+
+
 
     /**
      * Create and show a simple notification containing the received FCM message.
@@ -131,42 +134,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    private void setPushNotification(Context context, int id, String msg, String number, String name) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(name).setContentText(msg)
-                .setTicker(msg).setAutoCancel(true);
-
-        boolean isVibrate = ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeVibrate();
-        boolean isSound = ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNotiSound();
-        if (isVibrate) {
-            if (isSound) {
-                mBuilder.setDefaults(Notification.DEFAULT_ALL);
-            } else {
-                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-            }
-        } else {
-            if (isSound) {
-                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-            } else {
-                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
-            }
-        }
-
-        final long threadId = MessageDB.getInstance().getThreadId(getApplicationContext(), number);
-
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra(MessageActivity.THREAD_ID, threadId);
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(id, mBuilder.build());
-    }
-
-    private void releaseNotification(Context context) {
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
-    }
 }

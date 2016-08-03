@@ -1,6 +1,17 @@
 package leesc.chatchat.utils;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
+
+import leesc.chatchat.MainActivity;
+import leesc.chatchat.MessageActivity;
+import leesc.chatchat.R;
+import leesc.chatchat.db.MessageDB;
 
 public class ConfigSettingPreferences {
 
@@ -17,6 +28,7 @@ public class ConfigSettingPreferences {
 
     private static Context sContext;
     private static ConfigSettingPreferences sInstance = new ConfigSettingPreferences();
+    private static NotificationManager mNotificationManager;
 
     private ConfigSettingPreferences() {
 
@@ -25,6 +37,45 @@ public class ConfigSettingPreferences {
     public static ConfigSettingPreferences getInstance(Context context) {
         sContext = context;
         return sInstance;
+    }
+
+    public static void setPushNotification(int id, String msg, String number, String name) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(sContext)
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(name).setContentText(msg)
+                .setTicker(msg).setAutoCancel(true);
+
+        boolean isVibrate = ConfigSettingPreferences.getInstance(sContext).getPrefNoticeVibrate();
+        boolean isSound = ConfigSettingPreferences.getInstance(sContext).getPrefNotiSound();
+        if (isVibrate) {
+            if (isSound) {
+                mBuilder.setDefaults(Notification.DEFAULT_ALL);
+            } else {
+                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+            }
+        } else {
+            if (isSound) {
+                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+            } else {
+                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+            }
+        }
+
+        final long threadId = MessageDB.getInstance().getThreadId(sContext, number);
+
+        Intent resultIntent = new Intent(sContext, MainActivity.class);
+        resultIntent.putExtra(MessageActivity.THREAD_ID, threadId);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(sContext);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager = (NotificationManager) sContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(id, mBuilder.build());
+    }
+
+    public static void releaseNotification() {
+        mNotificationManager = (NotificationManager) sContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
     }
 
     public void setPrefNoticeVibrate(boolean isVibrate) {
