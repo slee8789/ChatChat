@@ -16,6 +16,7 @@
 
 package leesc.chatchat.fcm;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -23,19 +24,25 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import leesc.chatchat.MainActivity;
+import leesc.chatchat.MessageActivity;
 import leesc.chatchat.R;
 import leesc.chatchat.db.MessageDB;
 import leesc.chatchat.utils.CommonUtils;
+import leesc.chatchat.utils.ConfigSettingPreferences;
+import leesc.chatchat.utils.PhoneUtils;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+
+    private NotificationManager mNotificationManager;
 
     /**
      * Called when message is received.
@@ -69,14 +76,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
-        String email = remoteMessage.getData().get("email");
+        String number = remoteMessage.getData().get("number");
         String sender = remoteMessage.getData().get("sender");
         String message = remoteMessage.getData().get("message");
 
-        MessageDB.getInstance().storeMessage(MyFirebaseMessagingService.this, CommonUtils.MESSAGE, email, sender, message, MessageDB.RECEIVE_TYPE);
+        MessageDB.getInstance().storeMessage(MyFirebaseMessagingService.this, CommonUtils.MESSAGE, number, sender, message, MessageDB.RECEIVE_TYPE);
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+        if(ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeNotification()) {
+            setPushNotification(getApplicationContext(), 0, message, number, sender);
+        }
+
+        int unreadCount = MessageDB.getInstance().queryForUnreadCount(MyFirebaseMessagingService.this);
+        CommonUtils.updateIconBadge(MyFirebaseMessagingService.this, unreadCount);
+
+        if (!PhoneUtils.isScreenOn(getApplicationContext())
+                && ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeMessage()) {
+            // TODO :: FCM 도착 시 화면 꺼짐을 체크하여 메시지 알림 액티비티 생성
+//            Intent i = new Intent(MyFirebaseMessagingService.this, PopupActivity.class);
+//            i.putExtra("type", type);
+//            i.putExtra("message", message);
+//            i.putExtra("senderName", senderName);
+//            i.putExtra("senderNumber", senderNumber);
+//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(i);
+        }
     }
     // [END receive_message]
 
@@ -104,5 +129,44 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void setPushNotification(Context context, int id, String msg, String number, String name) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(name).setContentText(msg)
+                .setTicker(msg).setAutoCancel(true);
+
+        boolean isVibrate = ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNoticeVibrate();
+        boolean isSound = ConfigSettingPreferences.getInstance(getApplicationContext()).getPrefNotiSound();
+        if (isVibrate) {
+            if (isSound) {
+                mBuilder.setDefaults(Notification.DEFAULT_ALL);
+            } else {
+                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+            }
+        } else {
+            if (isSound) {
+                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+            } else {
+                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+            }
+        }
+
+        final long threadId = MessageDB.getInstance().getThreadId(getApplicationContext(), number);
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.putExtra(MessageActivity.THREAD_ID, threadId);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(id, mBuilder.build());
+    }
+
+    private void releaseNotification(Context context) {
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
     }
 }
