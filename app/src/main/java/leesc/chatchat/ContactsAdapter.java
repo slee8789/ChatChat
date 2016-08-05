@@ -2,7 +2,9 @@ package leesc.chatchat;
 
 import static leesc.chatchat.utils.CommonUtils.sCheckedItems;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -25,6 +28,7 @@ import com.mogua.localization.KoreanTextMatcher;
 import java.util.ArrayList;
 
 import leesc.chatchat.data.Contact;
+import leesc.chatchat.db.MessageDB;
 import leesc.chatchat.utils.CharUtils;
 import leesc.chatchat.utils.DummyContact;
 import leesc.chatchat.widget.HighlightTextView;
@@ -163,6 +167,8 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
             holder.selectCheck = (CheckBox) convertView.findViewById(R.id.contact_item_select_checkbox);
             holder.profileImage = (ImageView) convertView.findViewById(R.id.contact_item_profile_image);
             holder.nameText = (HighlightTextView) convertView.findViewById(R.id.contact_item_name_text);
+            holder.StartChat =(Button) convertView.findViewById(R.id.contact_item_chat_btn);
+
             holder.nameText
                     .setHighlightTextColor(mContext.getResources().getColor(R.color.contact_searched_text_color));
             holder.numberText = (HighlightTextView) convertView.findViewById(R.id.contact_item_number_text);
@@ -178,6 +184,10 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         String name = mContactItems.get(position).getName();
         final String number = mContactItems.get(position).getPhoneNumber();
         convertView.setTag(R.id.tag_contact_item, mContactItems.get(position));
+
+
+
+
 
         if (mMultiSelectMode) {
             holder.selectCheck.setVisibility(View.VISIBLE);
@@ -225,6 +235,25 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         holder.numberText.setHighlightText(getMatchedText(number, mSearchString));
         holder.profileImage.setImageResource(DummyContact.getAvatar(mContactItems.get(position).getPhoneNumber()));
 
+        // 채팅시작 버튼 누르면 대화시작
+        // threadId를 db에서 가져와야함
+        // final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getPhoneNumber());
+
+        holder.StartChat.setOnClickListener(new OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                    // Intent intent = new Intent(v.getContext(), MessageActivity.class)
+                                                    //          .putExtra(MessageActivity.THREAD_ID, "ThreadId");
+
+                                                   // mContext.startActivity(intent);
+
+
+                                                }
+                                            }
+        );
+
+
         return convertView;
     }
 
@@ -247,6 +276,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         HighlightTextView nameText;
         HighlightTextView numberText;
         ImageView profileImage;
+        Button StartChat;
     }
 
     private void updateIndexer(ArrayList<Contact> contactItems) {
