@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ import leesc.chatchat.db.RecipientIdCache;
 public class MessageActivity extends AppCompatActivity implements OnClickListener {
 
     public static final String THREAD_ID = "thread_id";
-
+    public static final String RECEIVER_NAME ="name";
     private DrawerLayout mDrawerLayout;
     private ReceiverDrawerAdapter mAdapter;
     private ListView mDrawerList;
@@ -33,6 +34,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
     private MessageFragment mMessageFragment;
     private int mIndex = 0;
 
+    private String mName;
     private long mThreadId;
     private String[] mNamesArray;
     private String[] mNumbersArray;
@@ -44,13 +46,16 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
+        mName=getIntent().getStringExtra(MessageActivity.RECEIVER_NAME);
         mThreadId = getIntent().getLongExtra(MessageActivity.THREAD_ID, -1);
-        if (mThreadId == -1) {
-            finish();
-        }
+        //Log.d("Thread_id_message", ""+mThreadId);
+        //Log.d("name_message" ,mName);
+
         findViews();
         initViews(savedInstanceState);
         initDrawer();
+
+
 
         if (savedInstanceState == null) {
             addFragment();
@@ -72,9 +77,9 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
                 e.printStackTrace();
             }
         }
-        
+
     }
-    
+
     private String getTextFromRadioButton(int id) {
         String msg = "";
         RadioButton radioBtn = (RadioButton) findViewById(id);
@@ -183,10 +188,13 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
 
     private void setActionBarTitle() {
         String title = "";
+        if(mThreadId==-1)
+        { title=mName;}
+        else{
         RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
         if (entry != null && entry.names != null) {
             title = entry.names;
-        }
+        }}
         final String actionBarTitle = title;
         // if (mRecipients.size() < 1) {
         // title = getString(R.string.activity_label_messages);
