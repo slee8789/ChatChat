@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -103,7 +104,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         notifyDataSetChanged();
         return mAllSelected;
     }
-    
+
     private void settingFlag(boolean flag) {
         for (int i = 0; i < mContactItems.size(); i++) {
             sCheckedItems.put(mContactItems.get(i).getPhoneNumber(), flag);
@@ -168,6 +169,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
             holder.profileImage = (ImageView) convertView.findViewById(R.id.contact_item_profile_image);
             holder.nameText = (HighlightTextView) convertView.findViewById(R.id.contact_item_name_text);
             holder.StartChat =(Button) convertView.findViewById(R.id.contact_item_chat_btn);
+            holder.StartChat.setTag(position);
 
             holder.nameText
                     .setHighlightTextColor(mContext.getResources().getColor(R.color.contact_searched_text_color));
@@ -235,21 +237,25 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         holder.numberText.setHighlightText(getMatchedText(number, mSearchString));
         holder.profileImage.setImageResource(DummyContact.getAvatar(mContactItems.get(position).getPhoneNumber()));
 
-        // 채팅시작 버튼 누르면 대화시작
-        // threadId를 db에서 가져와야함
-        // final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getPhoneNumber());
+
+        // start 버튼 눌렀을 때
 
         holder.StartChat.setOnClickListener(new OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+        int position=Integer.parseInt((v.getTag().toString()));
 
-                                                    // Intent intent = new Intent(v.getContext(), MessageActivity.class)
-                                                    //          .putExtra(MessageActivity.THREAD_ID, "ThreadId");
+        final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getPhoneNumber());
+        final String Name= mContactItems.get(position).getName();
 
-                                                   // mContext.startActivity(intent);
+        Intent intent = new Intent(v.getContext(), MessageActivity.class)
+        .putExtra(MessageActivity.THREAD_ID, "ThreadId");
+        intent.putExtra(MessageActivity.RECEIVER_NAME, Name);
 
+       // Log.d("name_contacts", Name+" "+ThreadId);
 
-                                                }
+        mContext.startActivity(intent);
+                      }
                                             }
         );
 
