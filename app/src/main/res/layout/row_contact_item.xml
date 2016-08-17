@@ -84,7 +84,7 @@
                 android:textStyle="bold" />
 
             <leesc.chatchat.widget.HighlightTextView
-                android:id="@+id/contact_item_number_text"
+                android:id="@+id/contact_item_email_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"

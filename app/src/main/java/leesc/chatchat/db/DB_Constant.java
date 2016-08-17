@@ -21,7 +21,7 @@ public interface DB_Constant {
     
     // Threads DB
     public static String THREADS_TABLE_NAME = "threads";
-    public static String THREADS_FIELD_THREAD_ADDRESS = "address";
+    public static String THREADS_FIELD_THREAD_EMAIL = "email";
     public static String THREADS_FIELD_THREAD_NAMES = "names";
 
     // Conversation DB
@@ -39,7 +39,7 @@ public interface DB_Constant {
     public static String MESSAGES_TABLE_NAME = "messages";
     public static String MESSAGES_FIELD_ID ="_id";
     public static String MESSAGES_FIELD_THREAD_ID = "threadId";
-    public static String MESSAGES_FIELD_ADDRESS = "address";
+    public static String MESSAGES_FIELD_EMAIL = "email";
     public static String MESSAGES_FIELD_NAMES = "names";
     public static String MESSAGES_FIELD_BODY = "body";
     public static String MESSAGES_FIELD_DATE = "date";
@@ -54,11 +54,6 @@ public interface DB_Constant {
     public static String CONTACTS_FIELD_ADDRESS = "address";
     public static String CONTACTS_FIELD_TYPE = "type";
     public static String CONTACTS_FIELD_POSITION = "position";
-    
-    // PartInfo DB
-    public static String PART_INFO_TABLE_NAME = "partinfo";
-    public static String PART_INFO_FIELD_PART = "part";
-    public static String PART_INFO_FIELD_COUNT = "count";
 
     public static final int SEND_TYPE = 0x01;
     public static final int RECEIVE_TYPE = 0x02;

@@ -137,7 +137,7 @@ public class ConversationsAdapter extends BaseAdapter {
             holder.conversationCheck.setChecked(mConversationList.get(position).isChecked());
         }
         
-        String tempNames = RecipientIdCache.getAddress(""+mConversationList.get(position).getThreadId()).names == null ? "" :RecipientIdCache.getAddress(""+mConversationList.get(position).getThreadId()).names;
+        String tempNames = RecipientIdCache.getEmail(""+mConversationList.get(position).getThreadId()).names == null ? "" :RecipientIdCache.getEmail(""+mConversationList.get(position).getThreadId()).names;
         holder.userTitleText.setText(tempNames);
         if (mConversationList.get(position).getDate() != 0) {
             holder.lastMessageDate.setText(DateUtils.formatListDate(mConversationList.get(position).getDate()));

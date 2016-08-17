@@ -19,13 +19,13 @@ public class MessageDB implements BaseColumns, DB_Constant {
     private static final int CONVERSATION = 200;
     private static final int MESSAGES = 300;
 
-    private static String THREADS_PROJECTION[] = { _ID, THREADS_FIELD_THREAD_ADDRESS, THREADS_FIELD_THREAD_NAMES };
+    private static String THREADS_PROJECTION[] = { _ID, THREADS_FIELD_THREAD_EMAIL, THREADS_FIELD_THREAD_NAMES };
 
     private static String CONVERSATION_PROJECTION[] = { _ID, CONVERSATION_FIELD_THREAD_ID, CONVERSATION_FIELD_SNIPPET,
             CONVERSATION_FIELD_DATE, CONVERSATION_FIELD_STATUS, CONVERSATION_FIELD_MSG_COUNT,
             CONVERSATION_FIELD_UNREAD_COUNT, CONVERSATION_FIELD_FAVORITY, CONVERSATION_FIELD_BLOCKED };
 
-    private static String MESSAGES_PROJECTION[] = { _ID, MESSAGES_FIELD_THREAD_ID, MESSAGES_FIELD_ADDRESS,
+    private static String MESSAGES_PROJECTION[] = { _ID, MESSAGES_FIELD_THREAD_ID, MESSAGES_FIELD_EMAIL,
             MESSAGES_FIELD_NAMES, MESSAGES_FIELD_BODY, MESSAGES_FIELD_DATE, MESSAGES_FIELD_TYPE, MESSAGES_FIELD_STATUS,
             MESSAGES_FIELD_READ };
 
@@ -63,12 +63,12 @@ public class MessageDB implements BaseColumns, DB_Constant {
         return dbHelper;
     }
 
-    public long insertThreads(Context context, String address, String names) {
+    public long insertThreads(Context context, String email, String names) {
         ContentValues values = new ContentValues();
-        values.put(THREADS_FIELD_THREAD_ADDRESS, address);
+        values.put(THREADS_FIELD_THREAD_EMAIL, email);
         values.put(THREADS_FIELD_THREAD_NAMES, names);
         try {
-            long id = getThreadId(context, address);
+            long id = getThreadId(context, email);
             if (id == -1) {
                 id = insert(context, values, THREADS);
             } else {
@@ -84,14 +84,14 @@ public class MessageDB implements BaseColumns, DB_Constant {
         return -1;
     }
 
-    public long getThreadId(Context context, String address) {
+    public long getThreadId(Context context, String email) {
         long id = -1;
         Cursor cursor = null;
         try {
-            StringBuilder where = new StringBuilder(THREADS_FIELD_THREAD_ADDRESS);
+            StringBuilder where = new StringBuilder(THREADS_FIELD_THREAD_EMAIL);
             where.append('=');
             where.append('\'');
-            where.append(address);
+            where.append(email);
             where.append('\'');
             getThreadCursor(context);
             cursor = queryForThreads(context, where.toString());
@@ -211,7 +211,7 @@ public class MessageDB implements BaseColumns, DB_Constant {
         ContentValues values = new ContentValues();
         values.put(MESSAGES_FIELD_THREAD_ID, threadId);
         values.put(MESSAGES_FIELD_TYPE, message_type);
-        values.put(MESSAGES_FIELD_ADDRESS, address);
+        values.put(MESSAGES_FIELD_EMAIL, address);
         values.put(MESSAGES_FIELD_NAMES, names);
         values.put(MESSAGES_FIELD_BODY, body);
         values.put(MESSAGES_FIELD_DATE, System.currentTimeMillis());
@@ -527,7 +527,7 @@ public class MessageDB implements BaseColumns, DB_Constant {
         public void onCreate(SQLiteDatabase db) {
             // threads 테이블
             db.execSQL("CREATE TABLE " + THREADS_TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY NOT NULL,"
-                    + THREADS_FIELD_THREAD_ADDRESS + " TEXT NOT NULL," + THREADS_FIELD_THREAD_NAMES + " TEXT NOT NULL"
+                    + THREADS_FIELD_THREAD_EMAIL + " TEXT NOT NULL," + THREADS_FIELD_THREAD_NAMES + " TEXT NOT NULL"
                     + ");");
 
             // conversation 테이블
@@ -541,7 +541,7 @@ public class MessageDB implements BaseColumns, DB_Constant {
 
             // messages 테이블
             db.execSQL("CREATE TABLE " + MESSAGES_TABLE_NAME + " (" + _ID + " INTEGER PRIMARY KEY NOT NULL,"
-                    + MESSAGES_FIELD_THREAD_ID + " INTEGER NOT NULL," + MESSAGES_FIELD_ADDRESS + " TEXT NOT NULL,"
+                    + MESSAGES_FIELD_THREAD_ID + " INTEGER NOT NULL," + MESSAGES_FIELD_EMAIL + " TEXT NOT NULL,"
                     + MESSAGES_FIELD_NAMES + " TEXT," + MESSAGES_FIELD_BODY + " TEXT," + MESSAGES_FIELD_TYPE
                     + " TEXT NOT NULL," + MESSAGES_FIELD_DATE + " INTEGER NOT NULL," + MESSAGES_FIELD_STATUS
                     + " INTEGER NOT NULL," + MESSAGES_FIELD_READ + " INTEGER NOT NULL," + " FOREIGN KEY ("

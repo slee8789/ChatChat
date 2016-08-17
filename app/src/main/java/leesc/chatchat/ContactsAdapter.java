@@ -107,7 +107,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
 
     private void settingFlag(boolean flag) {
         for (int i = 0; i < mContactItems.size(); i++) {
-            sCheckedItems.put(mContactItems.get(i).getPhoneNumber(), flag);
+            sCheckedItems.put(mContactItems.get(i).getEmail(), flag);
         }
     }
 
@@ -121,7 +121,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         ArrayList<Contact> contactItems = new ArrayList<Contact>();
         if (sCheckedItems != null) {
             for (int i = 0; i < mContactItems.size(); i++) {
-                if (sCheckedItems.get(mContactItems.get(i).getPhoneNumber())) {
+                if (sCheckedItems.get(mContactItems.get(i).getEmail())) {
                     contactItems.add(mContactItems.get(i));
                 }
             }
@@ -149,8 +149,8 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         // }
         if (mContactItems != null) {
             for (int i = 0; i < mContactItems.size(); i++) {
-                if (sCheckedItems.get(mContactItems.get(i).getPhoneNumber()) == null) {
-                    sCheckedItems.put(mContactItems.get(i).getPhoneNumber(), false);
+                if (sCheckedItems.get(mContactItems.get(i).getEmail()) == null) {
+                    sCheckedItems.put(mContactItems.get(i).getEmail(), false);
                 }
             }
         }
@@ -173,8 +173,8 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
 
             holder.nameText
                     .setHighlightTextColor(mContext.getResources().getColor(R.color.contact_searched_text_color));
-            holder.numberText = (HighlightTextView) convertView.findViewById(R.id.contact_item_number_text);
-            holder.numberText.setHighlightTextColor(mContext.getResources().getColor(
+            holder.emailText = (HighlightTextView) convertView.findViewById(R.id.contact_item_email_text);
+            holder.emailText.setHighlightTextColor(mContext.getResources().getColor(
                     R.color.contact_searched_text_color));
             convertView.setTag(R.id.tag_contact_holder, holder);
         } else {
@@ -184,7 +184,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.push_down_in);
         holder.nameText.setAnimation(animation);
         String name = mContactItems.get(position).getName();
-        final String number = mContactItems.get(position).getPhoneNumber();
+        final String email = mContactItems.get(position).getEmail();
         convertView.setTag(R.id.tag_contact_item, mContactItems.get(position));
 
 
@@ -198,13 +198,13 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
                 @Override
                 public void onClick(View v) {
                     boolean checked = holder.selectCheck.isChecked();
-                    sCheckedItems.put(number, checked);
+                    sCheckedItems.put(email, checked);
                 }
             });
-            if (sCheckedItems.get(number) == null) {
-                sCheckedItems.put(number, mAllSelected);
+            if (sCheckedItems.get(email) == null) {
+                sCheckedItems.put(email, mAllSelected);
             }
-            holder.selectCheck.setChecked(sCheckedItems.get(number));
+            holder.selectCheck.setChecked(sCheckedItems.get(email));
         } else {
             holder.selectCheck.setVisibility(View.GONE);
         }
@@ -233,9 +233,9 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
 
         holder.nameText.setText(name);
         holder.nameText.setHighlightText(getMatchedText(name, mSearchString));
-        holder.numberText.setText(number);
-        holder.numberText.setHighlightText(getMatchedText(number, mSearchString));
-        holder.profileImage.setImageResource(DummyContact.getAvatar(mContactItems.get(position).getPhoneNumber()));
+        holder.emailText.setText(email);
+        holder.emailText.setHighlightText(getMatchedText(email, mSearchString));
+        holder.profileImage.setImageResource(DummyContact.getAvatar(mContactItems.get(position).getEmail()));
 
 
         // start 버튼 눌렀을 때
@@ -245,7 +245,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
                                                 public void onClick(View v) {
         int position=Integer.parseInt((v.getTag().toString()));
 
-        final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getPhoneNumber());
+        final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getEmail());
         final String Name= mContactItems.get(position).getName();
 
         Intent intent = new Intent(v.getContext(), MessageActivity.class)
@@ -280,7 +280,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         LinearLayout initialCharLayout;
         TextView initialCharText;
         HighlightTextView nameText;
-        HighlightTextView numberText;
+        HighlightTextView emailText;
         ImageView profileImage;
         Button StartChat;
     }
@@ -342,7 +342,7 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
                 for (Contact item : mOriginalContactItems) {
                     if (KoreanTextMatcher.isMatch(item.getName(), constraintString)) {
                         filtered.add(item);
-                    } else if (deleteHyphen(item.getPhoneNumber()).contains(deleteHyphen(constraintString))) {
+                    } else if (deleteHyphen(item.getEmail()).contains(deleteHyphen(constraintString))) {
                         filtered.add(item);
                     }
                 }

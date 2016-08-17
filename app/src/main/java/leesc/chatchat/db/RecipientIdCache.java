@@ -25,12 +25,12 @@ public class RecipientIdCache {
     public static class Entry {
         public long id;
         public String names;
-        public String numbers;
+        public String emails;
 
-        public Entry(long id, String names, String numbers) {
+        public Entry(long id, String names, String emails) {
             this.id = id;
             this.names = names;
-            this.numbers = numbers;
+            this.emails = emails;
         }
 
     };
@@ -75,10 +75,10 @@ public class RecipientIdCache {
                     // TODO: don't hardcode the column indices
                     long id = c.getLong(0);
                     String names = c.getString(2);
-                    String numbers = c.getString(1);
+                    String emails = c.getString(1);
                     Log.e(TAG, "names " + names);
-                    Log.e(TAG, "numbers " + numbers);
-                    Entry info = new Entry(id, names, numbers);
+                    Log.e(TAG, "numbers " + emails);
+                    Entry info = new Entry(id, names, emails);
                     sInstance.mCache.put(id, info);
                 }
             }
@@ -92,9 +92,9 @@ public class RecipientIdCache {
         }
     }
 
-    public static Entry getAddress(String threadId) {
+    public static Entry getEmail(String threadId) {
         synchronized (sInstance) {
-            Entry number = null;
+            Entry email = null;
             Log.e(TAG, "getAddress " + threadId);
             String[] ids = threadId.split(" ");
             for (String id : ids) {
@@ -108,15 +108,15 @@ public class RecipientIdCache {
                 }
 
                 if (sInstance.mCache != null) {
-                    number = sInstance.mCache.get(longId);
+                    email = sInstance.mCache.get(longId);
                 }
-                if (number == null) {
+                if (email == null) {
                     fill(sInstance.mContext);
-                    number = sInstance.mCache.get(longId);
+                    email = sInstance.mCache.get(longId);
                 }
             }
            
-            return number;
+            return email;
         }
     }
 

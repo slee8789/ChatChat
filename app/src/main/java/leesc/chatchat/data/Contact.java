@@ -7,7 +7,6 @@ public class Contact {
 
     private int id;
     private String name;
-    private String phoneNumber;
     private String email;
     private String registrationToken;
 
@@ -16,9 +15,8 @@ public class Contact {
     private Contact() {
     }
 
-    public Contact(String name, String phoneNumber, String email, String registrationToken) {
+    public Contact(String name, String email, String registrationToken) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
         this.email = email;
         this.registrationToken = registrationToken;
     }
@@ -37,14 +35,6 @@ public class Contact {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {

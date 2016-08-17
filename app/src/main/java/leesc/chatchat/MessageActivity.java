@@ -67,11 +67,11 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
         mDrawerList = (ListView) findViewById(R.id.messages_drawer);
         mMessageFragment = new MessageFragment();
 
-        RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
+        RecipientIdCache.Entry entry = RecipientIdCache.getEmail(Long.toString(mThreadId));
         if (entry != null) {
             try {
                 mNamesArray = entry.names.replace(" ", "").split("\\,");
-                mNumbersArray = entry.numbers.replace(" ", "").split("\\,");
+                mNumbersArray = entry.emails.replace(" ", "").split("\\,");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -175,9 +175,9 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
 
     private void callToRecipient() {
         String phoneNumber = "";
-        RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
-        if (entry != null && entry.numbers != null) {
-            phoneNumber = entry.numbers;
+        RecipientIdCache.Entry entry = RecipientIdCache.getEmail(Long.toString(mThreadId));
+        if (entry != null && entry.emails != null) {
+            phoneNumber = entry.emails;
         }
         phoneNumber = phoneNumber.replaceAll("-", "");
 //        boolean isCalled = PhoneUtils.startPhoneCall(this, phoneNumber);
@@ -191,7 +191,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
         if(mThreadId==-1)
         { title=mName;}
         else{
-        RecipientIdCache.Entry entry = RecipientIdCache.getAddress(Long.toString(mThreadId));
+        RecipientIdCache.Entry entry = RecipientIdCache.getEmail(Long.toString(mThreadId));
         if (entry != null && entry.names != null) {
             title = entry.names;
         }}
