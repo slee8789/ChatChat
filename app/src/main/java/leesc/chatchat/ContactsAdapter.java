@@ -241,22 +241,22 @@ public class ContactsAdapter extends BaseAdapter implements SectionIndexer, Filt
         // start 버튼 눌렀을 때
 
         holder.StartChat.setOnClickListener(new OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-        int position=Integer.parseInt((v.getTag().toString()));
+                @Override
+                public void onClick(View v) {
+                    int position = Integer.parseInt((v.getTag().toString()));
 
-        final long ThreadId= MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getEmail());
-        final String Name= mContactItems.get(position).getName();
+                    final long threadId = MessageDB.getInstance().getThreadId(mContext, mContactItems.get(position).getEmail());
+                    final String Name = mContactItems.get(position).getName();
 
-        Intent intent = new Intent(v.getContext(), MessageActivity.class)
-        .putExtra(MessageActivity.THREAD_ID, "ThreadId");
-        intent.putExtra(MessageActivity.RECEIVER_NAME, Name);
+                    Intent intent = new Intent(v.getContext(), MessageActivity.class)
+                            .putExtra(MessageActivity.THREAD_ID, threadId);
+                    intent.putExtra(MessageActivity.RECEIVER_NAME, Name);
 
-       // Log.d("name_contacts", Name+" "+ThreadId);
+                    // Log.d("name_contacts", Name+" "+ threadId);
 
-        mContext.startActivity(intent);
-                      }
-                                            }
+                    mContext.startActivity(intent);
+                }
+            }
         );
 
 

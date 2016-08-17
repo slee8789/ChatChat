@@ -46,7 +46,7 @@ public class MessageActivity extends AppCompatActivity implements OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        mName=getIntent().getStringExtra(MessageActivity.RECEIVER_NAME);
+        mName = getIntent().getStringExtra(MessageActivity.RECEIVER_NAME);
         mThreadId = getIntent().getLongExtra(MessageActivity.THREAD_ID, -1);
         //Log.d("Thread_id_message", ""+mThreadId);
         //Log.d("name_message" ,mName);
