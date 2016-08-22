@@ -46,7 +46,7 @@ import leesc.chatchat.utils.ConfigSettingPreferences;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via email/name.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mHttpClient = new HttpClient(this, CommonUtils.SERVER_URL, null);
         findViews();
         initViews();
         initHttpModule();
@@ -90,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void initViews() {
-        // Set up the login form.
         populateAutoComplete();
 
         mNameView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -191,7 +189,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (TextUtils.isEmpty(name)) {
             // 이름을 빈 상태로 넘겼을 경우 이메일의 앞 아이디를 이름으로 설정한다.
             name = email.split("@")[0];
-            Log.e("LoginActivity" , "name = " + name);
         } else if (!TextUtils.isEmpty(name) && !isNameValid(name)) {
             mNameView.setError(getString(R.string.error_invalid_name));
             focusView = mNameView;
@@ -379,6 +376,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 } else if (response.getResultCode().equals("200")) {
                     // 기가입 유저
+                    // TODO :: 기가입 유저일 때 Device의 token 값이 변경되었을 경우 token 업데이트 로직 개발 필요
                     ConfigSettingPreferences.getInstance(LoginActivity.this).setPrefsUserEmail(mEmail);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
