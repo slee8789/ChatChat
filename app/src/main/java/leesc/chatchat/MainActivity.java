@@ -10,12 +10,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,15 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment[] arrFragments = new Fragment[3];
         arrFragments[0] = new ContactsFragment();
-        // FIXME :: MessagesFragment 를 ConversationsFragment 로 변경함
         arrFragments[1] = new ConversationsFragment();
-
-        // FIXME :: SettingsFragment 를 ConfigFragment 로 변경함
         arrFragments[2] = new ConfigFragment();
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), arrFragments);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        getToken();
+    }
+
+    private void getToken() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.e("MainActivity", "FCM token: " + refreshedToken);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
