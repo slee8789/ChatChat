@@ -55,17 +55,8 @@ public class MainActivity extends AppCompatActivity {
 //                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
 //            }
 //        }
-        saveToken();
         checkLogin();
         setFragment();
-    }
-
-    private void saveToken() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.e("MainActivity", "FCM token: " + refreshedToken);
-        if (!TextUtils.isEmpty(refreshedToken)) {
-            ConfigSettingPreferences.getInstance(MainActivity.this).setPrefsUserToken(refreshedToken);
-        }
     }
 
     private void checkLogin() {
@@ -75,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
-        } else {
-
         }
     }
 

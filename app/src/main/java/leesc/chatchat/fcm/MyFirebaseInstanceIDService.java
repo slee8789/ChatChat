@@ -16,10 +16,13 @@
 
 package leesc.chatchat.fcm;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import leesc.chatchat.utils.ConfigSettingPreferences;
 
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -55,5 +58,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
+        if (!TextUtils.isEmpty(token)) {
+            ConfigSettingPreferences.getInstance(MyFirebaseInstanceIDService.this).setPrefsUserToken(token);
+        }
     }
 }
