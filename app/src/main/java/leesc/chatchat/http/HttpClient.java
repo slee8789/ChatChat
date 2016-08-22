@@ -2,6 +2,7 @@ package leesc.chatchat.http;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.http.GenericUrl;
@@ -155,6 +156,8 @@ public class HttpClient {
     }
 
     private <T> T parseResponseFromString(String json, Class<T> resClass) throws IOException {
+        Log.e("HttpClient", "response = " + json);
+
         JsonObject jsonObject = (JsonObject) gson.fromJson(json, JsonElement.class);
         T t = gson.fromJson(jsonObject, resClass);
         return t;

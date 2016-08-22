@@ -40,6 +40,8 @@ public final class CommonUtils {
     public static final String MESSAGE = "message";
     public static final String RELEASE_NOTIFICATION = "RELEASE_NOTIFICATION";
 
+    public static final String SERVER_URL = "http://128.199.123.6:8080";
+
 	private static final boolean LOG_TOAST = true;
 
 	public static void makeToast(Context context, String msg) {

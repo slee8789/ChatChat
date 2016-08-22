@@ -17,6 +17,8 @@ public class ConfigSettingPreferences {
 
     private static final String PREFS_CONFIG = "prefs_config";
 
+    private static final String PREFS_KEY_USER_EMAIL = "user_email";
+    private static final String PREFS_KEY_USER_TOKEN = "user_token";
     private static final String PREFS_KEY_NOTICE_VIBRATE = "notice_vibrate";
     private static final String PREFS_KEY_NOTICE_NOTIFICATION = "notice_notification";
     private static final String PREFS_KEY_NOTICE_MESSAGE = "notice_message";
@@ -76,6 +78,22 @@ public class ConfigSettingPreferences {
     public static void releaseNotification() {
         mNotificationManager = (NotificationManager) sContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+    }
+
+    public void setPrefsUserEmail(String userEmail) {
+        SharedPreferencesHelper.setValue(sContext, PREFS_CONFIG, PREFS_KEY_USER_EMAIL, userEmail);
+    }
+
+    public String getPrefsUserEmail() {
+        return SharedPreferencesHelper.getValue(sContext, PREFS_CONFIG, PREFS_KEY_USER_EMAIL, null);
+    }
+
+    public void setPrefsUserToken(String userToken) {
+        SharedPreferencesHelper.setValue(sContext, PREFS_CONFIG, PREFS_KEY_USER_TOKEN, userToken);
+    }
+
+    public String getPrefsUserToken() {
+        return SharedPreferencesHelper.getValue(sContext, PREFS_CONFIG, PREFS_KEY_USER_TOKEN, null);
     }
 
     public void setPrefNoticeVibrate(boolean isVibrate) {

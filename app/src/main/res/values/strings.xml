@@ -18,6 +18,19 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_call">전화걸기</string>
 
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_name">Name (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_name">This name is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
     <!-- 대화 목록 -->
     <string name="select_all">전체선택</string>
     <string name="x_selected">개 선택됨</string>

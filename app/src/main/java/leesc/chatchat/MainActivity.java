@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -19,11 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import leesc.chatchat.utils.ConfigSettingPreferences;
+
 public class MainActivity extends AppCompatActivity {
 
     private String mUsername;
     private String mPhotoUrl;
-    private SharedPreferences mSharedPreferences;
     private GoogleApiClient mGoogleApiClient;
     public static final String ANONYMOUS = "anonymous";
 
@@ -35,26 +37,50 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // Set default username is anonymous.
-        mUsername = ANONYMOUS;
 
-        // Initialize Firebase Auth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
-            // Not signed in, launch the Sign In activity
-            startActivity(new Intent(this, SignInActivity.class));
+//        // Set default username is anonymous.
+//        mUsername = ANONYMOUS;
+//
+//        // Initialize Firebase Auth
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+//        if (mFirebaseUser == null) {
+//            // Not signed in, launch the Sign In activity
+//            startActivity(new Intent(this, SignInActivity.class));
+//            finish();
+//            return;
+//        } else {
+//            mUsername = mFirebaseUser.getDisplayName();
+//            if (mFirebaseUser.getPhotoUrl() != null) {
+//                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+//            }
+//        }
+        saveToken();
+        checkLogin();
+        setFragment();
+    }
+
+    private void saveToken() {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.e("MainActivity", "FCM token: " + refreshedToken);
+        if (!TextUtils.isEmpty(refreshedToken)) {
+            ConfigSettingPreferences.getInstance(MainActivity.this).setPrefsUserToken(refreshedToken);
+        }
+    }
+
+    private void checkLogin() {
+        String userEmail = ConfigSettingPreferences.getInstance(MainActivity.this).getPrefsUserEmail();
+
+        if (TextUtils.isEmpty(userEmail)) {
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         } else {
-            mUsername = mFirebaseUser.getDisplayName();
-            if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-            }
+
         }
+    }
 
-
+    private void setFragment() {
         //Fragment
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tl_tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.vp_pager);
@@ -67,13 +93,6 @@ public class MainActivity extends AppCompatActivity {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), arrFragments);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        getToken();
-    }
-
-    private void getToken() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.e("MainActivity", "FCM token: " + refreshedToken);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
