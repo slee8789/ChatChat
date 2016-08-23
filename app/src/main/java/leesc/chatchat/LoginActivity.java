@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +29,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -38,10 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import leesc.chatchat.http.HttpClient;
-import leesc.chatchat.http.model.IsRegisterd;
-import leesc.chatchat.http.model.IsRegisterdResponse;
-import leesc.chatchat.http.model.Register;
-import leesc.chatchat.http.model.RegisterResponse;
+import leesc.chatchat.http.model.IsRegisterUser;
+import leesc.chatchat.http.model.CommonResponse;
+import leesc.chatchat.http.model.RegisterRequest;
 import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.utils.ConfigSettingPreferences;
 
@@ -366,12 +363,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             boolean result = false;
-            IsRegisterd request = new IsRegisterd(mEmail);
+            IsRegisterUser request = new IsRegisterUser(mEmail);
 
             try {
-                IsRegisterdResponse response = mHttpClient.sendRequest("/api/isRegistered", IsRegisterd.class, IsRegisterdResponse.class, request);
+                CommonResponse response = mHttpClient.sendRequest("/api/isRegistered", IsRegisterUser.class, CommonResponse.class, request);
 
                 if (response.getResultCode().equals("417")) {
                     // 미가입 유저
@@ -390,7 +386,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
             }
 
-            // TODO: register the new account here.
             return result;
         }
 
@@ -398,13 +393,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String userToken = ConfigSettingPreferences.getInstance(LoginActivity.this).getPrefsUserToken();
 
             try {
-                Register registerRequest = new Register(mEmail, mName, userToken, "A");
-                RegisterResponse registerResponse = mHttpClient.sendRequest("/api/registerRequest", Register.class, RegisterResponse.class, registerRequest);
+                RegisterRequest registerRequest = new RegisterRequest(mEmail, mName, userToken, "A");
+                CommonResponse response = mHttpClient.sendRequest("/api/registerRequest", RegisterRequest.class, CommonResponse.class, registerRequest);
 
-                if (registerResponse.getResultCode().equals("200")) {
+                if (response.getResultCode().equals("200")) {
                     // 미가입 유저 -> 가입완료
                     return true;
-                } else if (registerResponse.getResultCode().equals("417")) {
+                } else if (response.getResultCode().equals("417")) {
                     // 미가입 유저 -> 가입실패
                     return false;
                 } else {

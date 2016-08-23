@@ -5,11 +5,11 @@ import com.google.api.client.util.Key;
 /**
  * Created by hmlee on 2016-08-22.
  */
-public class IsRegisterd {
+public class IsRegisterUser {
     @Key
     String email;
 
-    public IsRegisterd(String email) {
+    public IsRegisterUser(String email) {
         this.email = email;
     }
 

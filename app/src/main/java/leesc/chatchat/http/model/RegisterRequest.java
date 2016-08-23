@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by hmlee on 2016-08-22.
  */
-public class Register {
+public class RegisterRequest {
 
     @Key
     String email;
@@ -16,7 +16,7 @@ public class Register {
     @Key
     String device_type;
 
-    public Register(String email, String name, String token, String device_type) {
+    public RegisterRequest(String email, String name, String token, String device_type) {
         this.email = email;
         this.name = name;
         this.token = token;

@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by hmlee on 2016-08-22.
  */
-public class IsRegisterdResponse {
+public class CommonResponse {
     @Key
     private String resultCode;
     @Key
