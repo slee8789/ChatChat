@@ -76,8 +76,8 @@ public class RecipientIdCache {
                     long id = c.getLong(0);
                     String names = c.getString(2);
                     String emails = c.getString(1);
-                    Log.e(TAG, "names " + names);
-                    Log.e(TAG, "numbers " + emails);
+//                    Log.e(TAG, "names " + names);
+//                    Log.e(TAG, "numbers " + emails);
                     Entry info = new Entry(id, names, emails);
                     sInstance.mCache.put(id, info);
                 }
@@ -95,7 +95,7 @@ public class RecipientIdCache {
     public static Entry getEmail(String threadId) {
         synchronized (sInstance) {
             Entry email = null;
-            Log.e(TAG, "getAddress " + threadId);
+//            Log.e(TAG, "getEmail " + threadId);
             String[] ids = threadId.split(" ");
             for (String id : ids) {
                 long longId;

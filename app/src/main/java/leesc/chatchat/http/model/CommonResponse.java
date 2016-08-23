@@ -2,10 +2,12 @@ package leesc.chatchat.http.model;
 
 import com.google.api.client.util.Key;
 
+import leesc.chatchat.http.AbstractResponse;
+
 /**
  * Created by hmlee on 2016-08-22.
  */
-public class CommonResponse {
+public class CommonResponse extends AbstractResponse {
     @Key
     private String resultCode;
     @Key

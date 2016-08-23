@@ -39,7 +39,7 @@ import leesc.chatchat.widget.MonitoringEditText;
 public class MessageFragment extends Fragment implements DataChange, MonitoringEditText.OnPasteListener {
 
     public static final String RESPONSE_MSG = "response_msg";
-    public static final String API_ID_PUSH_REQUEST = "push_request";
+    public static final String API_ID_MESSAGE_REQUEST = "message_request";
 
     private SendMessageTask mSendTask;
 
@@ -58,23 +58,22 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
 
     private DisplayImageOptions mOptions;
     private ImageLoader mImageLoader = ImageLoader.getInstance();
-    
-    private int mSendType = 0; // 0 normal 1 attendance 2 etc
+
+    // TODO :: 추후 다른 메시지 타입이 있을 시 처리하기 위한 Type
+    private int mSendType = 0; // 0 normal
     
     final Handler responseHandler = new Handler() {
         public void handleMessage(Message msg) {
             mSendButton.setVisibility(View.VISIBLE);
             mImgProgress.setVisibility(View.GONE);
 
-            // TODO :: Handler 구현
             String response = msg.getData().getString(RESPONSE_MSG);
-            if (response.equals(API_ID_PUSH_REQUEST)) {
-                int success = msg.getData().getInt("success");
-                int failure = msg.getData().getInt("failure");
+            if (response.equals(API_ID_MESSAGE_REQUEST)) {
+                boolean result = msg.getData().getBoolean("result");
 
-                if (success >= 1) {
+                if (result) {
 //                    Toast.makeText(mActivity, "메시지 전송에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                } else if (success == 0 && failure >= 1) {
+                } else {
                     Toast.makeText(mActivity, "메시지 전송에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -239,7 +238,6 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
         }
     }
 
-    // TODO :: send message 기능 구현
     public class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mSenderEmail;
@@ -287,20 +285,16 @@ public class MessageFragment extends Fragment implements DataChange, MonitoringE
 
             if (success) {
                 mInputMessage.setText("");
-
                 mThreadId = MessageDB.getInstance().storeMessage(mActivity, CommonUtils.MESSAGE, mReceiverEmail,
                         mReceiverName, mContentMessage, MessageDB.SEND_TYPE);
-
-                Message msg = responseHandler.obtainMessage();
-                Bundle bundle = new Bundle();
-                bundle.putString(RESPONSE_MSG, API_ID_PUSH_REQUEST);
-                bundle.putInt("success", 1);
-                bundle.putInt("failure", 0);
-                msg.setData(bundle);
-                responseHandler.sendMessage(msg);
-            } else {
-                // TODO :: 실패 처리
             }
+
+            Message msg = responseHandler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString(RESPONSE_MSG, API_ID_MESSAGE_REQUEST);
+            bundle.putBoolean("result", success);
+            msg.setData(bundle);
+            responseHandler.sendMessage(msg);
         }
 
         @Override
