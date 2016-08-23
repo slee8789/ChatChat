@@ -30,8 +30,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -365,6 +367,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            boolean result = false;
             IsRegisterd request = new IsRegisterd(mEmail);
 
             try {
@@ -372,52 +375,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 if (response.getResultCode().equals("417")) {
                     // 미가입 유저
-                    processRegister();
-
+                    result = processRegister();
                 } else if (response.getResultCode().equals("200")) {
                     // 기가입 유저
-                    // TODO :: 기가입 유저일 때 Device의 token 값이 변경되었을 경우 token 업데이트 로직 개발 필요
-                    ConfigSettingPreferences.getInstance(LoginActivity.this).setPrefsUserEmail(mEmail);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    result = processUpdateUserInfo();
                 } else {
                     // TODO :: 예외 에러코드 처리
+                    result = false;
                 }
 
+            } catch (ConnectException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             // TODO: register the new account here.
-            return true;
+            return result;
         }
 
-        private void processRegister() {
+        private boolean processRegister() {
             String userToken = ConfigSettingPreferences.getInstance(LoginActivity.this).getPrefsUserToken();
 
             try {
                 Register registerRequest = new Register(mEmail, mName, userToken, "A");
                 RegisterResponse registerResponse = mHttpClient.sendRequest("/api/registerRequest", Register.class, RegisterResponse.class, registerRequest);
 
-                Log.e("LoginActivity" , "email = " + mEmail);
-                Log.e("LoginActivity" , "name = " + mName);
-                Log.e("LoginActivity" , "token = " + userToken);
-
                 if (registerResponse.getResultCode().equals("200")) {
                     // 미가입 유저 -> 가입완료
-                    ConfigSettingPreferences.getInstance(LoginActivity.this).setPrefsUserEmail(mEmail);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    return true;
                 } else if (registerResponse.getResultCode().equals("417")) {
                     // 미가입 유저 -> 가입실패
+                    return false;
                 } else {
                     // TODO :: 예외 에러코드 처리
+                    return false;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             }
 
+        }
 
+        private boolean processUpdateUserInfo() {
+            // TODO :: 기가입 유저일 때 Device의 token 값이 변경되었을 경우 token 업데이트 로직 개발 필요
+
+            return true;
         }
 
         @Override
@@ -426,9 +430,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                ConfigSettingPreferences.getInstance(LoginActivity.this).setPrefsUserEmail(mEmail);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             } else {
-                mNameView.setError(getString(R.string.error_incorrect_password));
                 mNameView.requestFocus();
             }
         }
