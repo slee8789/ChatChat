@@ -2,6 +2,7 @@ package leesc.chatchat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
         checkLogin();
         setFragment();
+        getToken();
     }
 
     private void checkLogin() {
@@ -118,6 +120,19 @@ public class MainActivity extends AppCompatActivity {
                     return "";
             }
 
+        }
+    }
+
+    private void getToken() {
+        String refresedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.e("MainActivity", "FCM token: " + refresedToken);
+    }
+
+    public class GetFriendListTask extends AsyncTask<Void, Void, Boolean> {
+        protected Boolean doInBackground(Void... params) {
+            boolean result = false;
+
+            return result;
         }
     }
 
