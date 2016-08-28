@@ -55,6 +55,14 @@ public interface DB_Constant {
     public static String CONTACTS_FIELD_TYPE = "type";
     public static String CONTACTS_FIELD_POSITION = "position";
 
+    //Friend DB
+    public static String FRIEND_TABLE_NAME ="friend";
+    public static String FRIEND_FIELD_FRIEND_ID ="friendId";
+    public static String FRIEND_FIELD_FRIEND_EMAIL ="friendEmail";
+    public static String FRIEND_FIELD_FRIEND_NAME ="friendName";
+    public static String FRIEND_FIELD_FRIEND_TOKEN ="friendToken";
+    public static String FRIEND_FIELD_FRIEND_DEVICE ="friendDevice";
+
     public static final int SEND_TYPE = 0x01;
     public static final int RECEIVE_TYPE = 0x02;
 
