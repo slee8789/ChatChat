@@ -7,12 +7,12 @@ import com.google.api.client.util.Key;
  */
 public class AddFriend {
     @Key
-    String useremail;
+    String userEmail;
     @Key
-    String friendemail;
+    String friendEmail;
 
-    public AddFriend(String useremail, String friendemail) {
-        this.useremail = useremail;
-        this.friendemail = friendemail;
+    public AddFriend(String userEmail, String friendEmail) {
+        this.userEmail = userEmail;
+        this.friendEmail = friendEmail;
     }
 }
