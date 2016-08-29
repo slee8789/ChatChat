@@ -39,6 +39,7 @@ import leesc.chatchat.http.HttpClient;
 import leesc.chatchat.http.model.IsRegisterUser;
 import leesc.chatchat.http.model.CommonResponse;
 import leesc.chatchat.http.model.RegisterRequest;
+import leesc.chatchat.http.model.UpdateUserInfo;
 import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.utils.ConfigSettingPreferences;
 
@@ -414,9 +415,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         private boolean processUpdateUserInfo() {
-            // TODO :: 기가입 유저일 때 Device의 token 값이 변경되었을 경우 token 업데이트 로직 개발 필요
+            String userToken = ConfigSettingPreferences.getInstance(LoginActivity.this).getPrefsUserToken();
 
-            return true;
+            try {
+                UpdateUserInfo request = new UpdateUserInfo(mEmail, mName, userToken, "A");
+                CommonResponse response = mHttpClient.sendRequest("/api/updateUserInfo", UpdateUserInfo.class, CommonResponse.class, request);
+
+                if (response.getResultCode().equals("200")) {
+                    // 업데이트 성공
+                    return true;
+                } else if (response.getResultCode().equals("417")) {
+                    // 업데이트 실패
+                    return false;
+                } else {
+                    // TODO :: 예외 에러코드 처리
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+
         }
 
         @Override

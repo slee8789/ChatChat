@@ -275,13 +275,13 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                 // TODO :: 친구추가 기능 구현 필요
                 //Toast.makeText(mActivity, "친구추가 기능 구현 필요", Toast.LENGTH_SHORT).show();
 
-                class addFriendTask extends AsyncTask<Void, Void, Boolean> {
+                class AddFriendTask extends AsyncTask<Void, Void, Boolean> {
 
                     //private final String friendNmae;
                     private final String userEmail;
                     private final String friendEmail;
 
-                    addFriendTask(String useremail, String friendemail) {
+                    AddFriendTask(String useremail, String friendemail) {
                         userEmail = useremail;
                         friendEmail = friendemail;
                     }
@@ -331,9 +331,9 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                             Contact contact1 = new Contact(fname, femail, null);
                             sContactList.add(contact1);
 
-                            addFriendTask mAddTask = null;
+                            AddFriendTask mAddTask = null;
                             String userEmail = ConfigSettingPreferences.getInstance(mActivity).getPrefsUserEmail();
-                            mAddTask = new addFriendTask(userEmail,femail);
+                            mAddTask = new AddFriendTask(userEmail,femail);
                             mAddTask.execute((Void) null);
                     }
                 });
