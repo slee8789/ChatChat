@@ -32,11 +32,10 @@ import leesc.chatchat.data.Contact;
 import leesc.chatchat.http.HttpClient;
 import leesc.chatchat.http.model.AddFriend;
 import leesc.chatchat.http.model.CommonResponse;
-import leesc.chatchat.http.model.IsRegisterUser;
 import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.utils.ConfigSettingPreferences;
 import leesc.chatchat.widget.IndexBar;
-import leesc.chatchat.widget.addFriendDialog;
+import leesc.chatchat.widget.AddFriendDialog;
 
 import static leesc.chatchat.utils.CommonUtils.sMultiSelectMode;
 
@@ -319,7 +318,7 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                     }
                 }
 
-                final addFriendDialog addFriendDialog = new addFriendDialog(getActivity());
+                final AddFriendDialog addFriendDialog = new AddFriendDialog(getActivity());
                 addFriendDialog.setTitle("친구 추가");
                 addFriendDialog.show();
 
