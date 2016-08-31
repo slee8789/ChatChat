@@ -18,7 +18,7 @@ public class AddFriendDialog extends Dialog implements View.OnTouchListener {
     private Button addOk, addCancel;
     private String _friendName, _friendEmail;
 
-    public addFriendDialog(Context context) {
+    public AddFriendDialog(Context context) {
         super(context);
     }
 
