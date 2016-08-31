@@ -13,7 +13,7 @@ import leesc.chatchat.R;
 /**
  * Created by LeeSeongKyung on 2016-08-23.
  */
-public class addFriendDialog extends Dialog implements View.OnTouchListener {
+public class AddFriendDialog extends Dialog implements View.OnTouchListener {
     private EditText friendName, friendEmail;
     private Button addOk, addCancel;
     private String _friendName, _friendEmail;
