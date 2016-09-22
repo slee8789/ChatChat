@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -17,6 +18,7 @@ public class ConfigSettingPreferences {
 
     private static final String PREFS_CONFIG = "prefs_config";
 
+    private static final String PREFS_KEY_USER_NAME = "user_name";
     private static final String PREFS_KEY_USER_EMAIL = "user_email";
     private static final String PREFS_KEY_USER_TOKEN = "user_token";
     private static final String PREFS_KEY_NOTICE_VIBRATE = "notice_vibrate";
@@ -78,6 +80,14 @@ public class ConfigSettingPreferences {
     public static void releaseNotification() {
         mNotificationManager = (NotificationManager) sContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+    }
+
+    public void setPrefsUserName(String userName) {
+        SharedPreferencesHelper.setValue(sContext,PREFS_CONFIG, PREFS_KEY_USER_NAME, userName);
+    }
+
+    public String getPrefsUserName() {
+        return SharedPreferencesHelper.getValue(sContext, PREFS_CONFIG, PREFS_KEY_USER_NAME, null);
     }
 
     public void setPrefsUserEmail(String userEmail) {

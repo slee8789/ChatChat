@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -32,11 +34,13 @@ import leesc.chatchat.data.Contact;
 import leesc.chatchat.http.HttpClient;
 import leesc.chatchat.http.model.AddFriend;
 import leesc.chatchat.http.model.CommonResponse;
+import leesc.chatchat.http.model.IsRegisterUser;
 import leesc.chatchat.utils.CommonUtils;
 import leesc.chatchat.utils.ConfigSettingPreferences;
 import leesc.chatchat.widget.IndexBar;
 import leesc.chatchat.widget.AddFriendDialog;
 
+import static leesc.chatchat.utils.CommonUtils.makeToast;
 import static leesc.chatchat.utils.CommonUtils.sMultiSelectMode;
 
 public class ContactsFragment extends Fragment implements OnClickListener {
@@ -57,6 +61,10 @@ public class ContactsFragment extends Fragment implements OnClickListener {
     private Button mAllSelected;
 
     private HttpClient mHttpClient;
+
+    private AddFriendTask mAddTask = null;
+    private IsFriendRegisterTask mIsRegisterTask = null;
+   // private AddFriendDialog addFriendDialog = new AddFriendDialog(getContext());
 
     public interface ContactsConfirmListener {
         public void onConfirm();
@@ -256,8 +264,10 @@ public class ContactsFragment extends Fragment implements OnClickListener {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
+   @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final AddFriendDialog addFriendDialog = new AddFriendDialog(getActivity());
+
         switch (item.getItemId()) {
 //            case R.id.action_write_message:
 //                if (!sMultiSelectMode) {
@@ -274,66 +284,13 @@ public class ContactsFragment extends Fragment implements OnClickListener {
                 // TODO :: 친구추가 기능 구현 필요
                 //Toast.makeText(mActivity, "친구추가 기능 구현 필요", Toast.LENGTH_SHORT).show();
 
-                class AddFriendTask extends AsyncTask<Void, Void, Boolean> {
-
-                    //private final String friendNmae;
-                    private final String userEmail;
-                    private final String friendEmail;
-
-                    AddFriendTask(String useremail, String friendemail) {
-                        userEmail = useremail;
-                        friendEmail = friendemail;
-                    }
-
-                    protected Boolean doInBackground(Void... params) {
-                        boolean result = false;
-                        //String userEmail = ConfigSettingPreferences.getInstance(mActivity).getPrefsUserEmail();
-                        AddFriend request = new AddFriend(userEmail,friendEmail);
-
-                        try {
-                            CommonResponse response = mHttpClient.sendRequest("/api/addFriendRequest", AddFriend.class, CommonResponse.class, request);
-
-                            if (response.getResultCode().equals("200")) {
-                                // 친구 추가 성공
-                                result = true;
-                            } else if (response.getResultCode().equals("417")) {
-                                // 친구 추가 실패
-                                result = false;
-                            } else {
-                                // TODO :: 예외 에러코드 처리
-                                result = false;
-                            }
-
-                        } catch (ConnectException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        return result;
-                    }
-
-                    protected void onPostExecute(final Boolean success) {
-
-                    }
-                }
-
-                final AddFriendDialog addFriendDialog = new AddFriendDialog(getActivity());
                 addFriendDialog.setTitle("친구 추가");
                 addFriendDialog.show();
 
                 addFriendDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                            String fname = addFriendDialog.getFriendName();
-                            String femail = addFriendDialog.getFriendEmail();
-                            Contact contact1 = new Contact(fname, femail, null);
-                            sContactList.add(contact1);
-
-                            AddFriendTask mAddTask = null;
-                            String userEmail = ConfigSettingPreferences.getInstance(mActivity).getPrefsUserEmail();
-                            mAddTask = new AddFriendTask(userEmail,femail);
-                            mAddTask.execute((Void) null);
+                        isRegister(addFriendDialog);
                     }
                 });
 
@@ -349,6 +306,154 @@ public class ContactsFragment extends Fragment implements OnClickListener {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    class IsFriendRegisterTask extends AsyncTask<Void, Void, Boolean> {
+        String friendemail;
+
+        IsFriendRegisterTask(String femail) {
+            friendemail = femail;
+        }
+
+        protected Boolean doInBackground(Void... params) {
+            boolean result = false;
+
+            IsRegisterUser request = new IsRegisterUser(friendemail);
+            try
+            {
+                CommonResponse response = mHttpClient.sendRequest("/api/isRegistered", IsRegisterUser.class, CommonResponse.class, request);
+
+                if (response.getResultCode().equals("417")) {
+                    // 미가입 유저
+                    result=false;
+                } else if (response.getResultCode().equals("200")) {
+                    // 기가입 유저
+                    String userEmail = ConfigSettingPreferences.getInstance(mActivity).getPrefsUserEmail();
+                    mAddTask = new AddFriendTask(userEmail, friendemail);
+                   // Log.v("태그","메시지"+userEmail);
+                   // Log.v("태그","메시지"+friendemail);
+                    attemptAdd();
+                    result=true;
+                } else {
+                    // TODO :: 예외 에러코드 처리
+                    result = false;
+                }
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        protected void onPostExecute(final Boolean fail) {
+            if(!fail)
+            Toast.makeText(mActivity, "등록되지 않은 사용자입니다.", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    class AddFriendTask extends AsyncTask<Void, Void, Boolean> {
+        private final String userEmail;
+        private final String friendEmail;
+
+        AddFriendTask(String useremail, String friendemail) {
+            userEmail = useremail;
+            friendEmail = friendemail;
+        }
+
+        protected Boolean doInBackground(Void... params) {
+            boolean result = false;
+            AddFriend request = new AddFriend(userEmail,friendEmail);
+
+            try {
+                CommonResponse response = mHttpClient.sendRequest("/api/addFriendRequest", AddFriend.class, CommonResponse.class, request);
+
+                if (response.getResultCode().equals("200")) {
+                    // 친구 추가 성공
+                    result = true;
+                } else if (response.getResultCode().equals("417")) {
+                    // 친구 추가 실패
+                    result = false;
+                } else {
+                    // TODO :: 예외 에러코드 처리
+                    result = false;
+                }
+
+            } catch (ConnectException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        protected void onPostExecute(final Boolean success) {
+            String friendName = ConfigSettingPreferences.getInstance(mActivity).getPrefsUserName();
+            Contact contact1 = new Contact(friendName, friendEmail, null);
+            sContactList.add(contact1);
+
+            mAdapter = new ContactsAdapter(mActivity, sContactList, sMultiSelectMode);
+            mListView.setAdapter(mAdapter);
+            mListView.setEmptyView(mEmptyView);
+            mIndexBar.setIndexView(mIndexText);
+            mIndexBar.setPinnedHeaderListView(mListView);
+            mIndexBar.setSectionIndexer(mAdapter.getSetionIndexer());
+
+            mSearchEdit.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    mAdapter.getFilter().filter(s.toString());
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+
+            mListView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (!sMultiSelectMode) {
+                        ArrayList<Contact> items = new ArrayList<Contact>();
+                        Contact item = (Contact) mAdapter.getItem(position);// SplashActivity.sAddressList.get(position);
+                        items.add(item);
+
+                        // TODO :: contact list click event set
+//
+//                    Intent intent = new Intent(mActivity, ComposeActivity.class);
+//                    intent.putExtra(ComposeActivity.SEND_FROM, ComposeActivity.SEND_FROM_CONTACTS);
+//                    mActivity.startActivity(intent);
+                    } else {
+                        ((CheckBox) view.findViewById(R.id.contact_item_select_checkbox)).performClick();
+                    }
+                }
+            });
+
+           // mCancelButton.setOnClickListener(this);
+           // mConfirmButton.setOnClickListener(this);
+           // mAllSelected.setOnClickListener(this);
+            setVisibleLayout();
+        }
+    }
+
+    private void isRegister(AddFriendDialog addFriendDialog){
+        String femail = addFriendDialog.getFriendEmail();
+        mIsRegisterTask = new IsFriendRegisterTask(femail);
+        mIsRegisterTask.execute((Void) null);
+    }
+
+    private void attemptAdd() {
+        mAddTask.execute((Void) null);
     }
 
 }

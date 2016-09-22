@@ -21,6 +21,8 @@ public class Contact {
         this.registrationToken = registrationToken;
     }
 
+
+
     public int getId() {
         return id;
     }

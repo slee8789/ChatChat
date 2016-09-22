@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
         checkLogin();
         setFragment();
-        getToken();
     }
 
     private void checkLogin() {
@@ -123,18 +122,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getToken() {
-        String refresedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.e("MainActivity", "FCM token: " + refresedToken);
-    }
-
-    public class GetFriendListTask extends AsyncTask<Void, Void, Boolean> {
-        protected Boolean doInBackground(Void... params) {
-            boolean result = false;
-
-            return result;
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
